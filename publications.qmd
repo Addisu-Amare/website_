@@ -1,0 +1,30 @@
+---
+title: "Publications"
+format: html
+---
+
+Here is a select list of my data science education and applied data science publications:
+
+## Works in progress
+
+- Lopez-Miranda, A. E., **Timbers, T.**, & Alexander, R. (2025). Prompting the Professoriate: A Qualitative Study of Instructor Perspectives on LLMs in Data Science Education. *arXiv preprint* arXiv:2509.12283. [[link](https://arxiv.org/pdf/2509.12283)]
+
+## Peer-reviewed publications
+
+- Sheng, K., Foris, B., von Keyserlingk, M. A., **Timbers, T. A.**, Cabrera, V., & Weary, D. M. (2025). Redefining lameness assessment: Constructing lameness hierarchy using crowd-sourced data. *Computers and Electronics in Agriculture*, 234, 110206. [[link](https://doi.org/10.1016/j.compag.2025.110206)]
+
+- Ostblom, J., & **Timbers, T.** (2022). Opinionated practices for teaching reproducibility: motivation, guided instruction and practice. *Journal of Statistics and Data Science Education*, 30(3), 241-250. [[link](https://doi.org/10.1080/26939169.2022.2074922)]
+
+- Ardiel, E., McDiarmid, T., **Timbers, T.**, Lee, K., Safaei, J., Pelech, S., & Rankin, C. (2018). Insights into the roles of CMK-1 and OGT-1 in interstimulus interval-dependent habituation in Caenorhabditis elegans. *Proceedings of the Royal Society B*, 285(1891), 20182084. [[link](https://doi.org/10.1098/rspb.2018.2084)]
+
+- **Timbers, T.**, Garland, S., Mohan, S., Flibotte, S., Edgley, M., Muncaster, Q., ... & Leroux, M. (2016). Accelerating gene discovery by phenotyping whole-genome sequenced multi-mutation strains and using the sequence kernel association test (SKAT). *PLoS Genetics*, 12(8), e1006235. [[link](https://doi.org/10.1371/journal.pgen.1006235)]
+
+- Babaian, A., Drögemöller, B., Grande, B.M., Jackman, S.D., Lee, A.H., Lin, S., Loucks, C., Suarez-Gonzalez, A., **Timbers, T.** and Wright, G. (2017). hackseq: Catalyzing collaboration between biological and computational scientists via hackathon version 1; referees: awaiting peer review. *F1000 Research*, Hackathons channel. doi: 10.12688/f1000research.10964.1 [[link](https://doi.org/10.12688/f1000research.10964.2)]
+
+## Books
+
+- **Timbers, T.**, Campbell, T., Lee, M., Ostblom, J., & Heagy, L. (2024). *Data Science: A First Introduction with Python* (1st ed.). Chapman and Hall/CRC. https://doi.org/10.1201/9781003438397
+
+- **Timbers, T.**, Campbell, T., & Lee, M. (2022). *Data Science: A First Introduction* (1st ed.). Chapman and Hall/CRC. https://doi.org/10.1201/9781003080978
+
+- Beuzen, T., & **Timbers, T.** (2022). *Python Packages* (1st ed.). Chapman and Hall/CRC. https://doi.org/10.1201/9781003189251

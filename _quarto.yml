@@ -1,0 +1,31 @@
+project:
+  type: website
+
+site-url: "https://tiffanytimbers.com"
+
+output-dir: _site
+
+website:
+  title: "Tiffany Timbers"
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Scholarship
+        href: research.qmd
+      - text: Teaching
+        href: teaching.qmd
+      - text: Publications
+        href: publications.qmd
+      - text: Talks & Workshops
+        href: talks.qmd
+
+    right:
+      - icon: github
+        href: https://github.com/ttimbers
+
+format:
+  html:
+    theme: minty
+    css: css/styles.css   # optional custom CSS
+    toc: false

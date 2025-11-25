@@ -1,0 +1,37 @@
+---
+title: "Research"
+author: 
+  - name: Tiffany Timbers 
+    affiliation: The University of British Columbia
+format: 
+  html: 
+    toc: true
+    toc-location: left
+---
+
+# Scholarship interests
+
+My scholarship interests lie at the intersection of data science and education.
+I have spent a large part of my career developing data science curricula 
+and resources in higher education for both graduate and undergraduate students.
+Below is a list of the data science curricula I have contributed to developing:
+
+- Undergraduate B.Sc. major specialization in data science (launched 2024) [[website](https://datascience.ubc.ca/major)]
+- Undergraduate B.Sc. minor specialization in data science (launched 2021) [[website](https://datascience.ubc.ca/minor)]
+- Extended Learning Certificate in Data Science (launched 2021) [[website](https://extendedlearning.ubc.ca/programs-credentials/key-capabilities-data-science-certificate)]
+- Master of Data Science program (launched 2016) [[website](https://masterdatascience.ubc.ca/)]
+
+In addition to curriculum development, 
+I have also authored several open educational resource textbooks, 
+published articles on data science education, 
+collaborated on research projects requiring data science expertise,
+and presented at conferences on data science education topics, 
+as well as given workshops on data science technical skills and teaching practices.
+Please see the [Publications](publications.qmd) and [Talks & Workshops](talks.qmd) pages
+for details.
+
+My current scholarship work focuses on understanding how large language models (LLMs)
+can (and cannot be) be effectively integrated into data science education. 
+I am also working on a childrens book series
+which teaches statistical thinking and ecology through embedding concepts
+in an engaging fictional adventure story format.
