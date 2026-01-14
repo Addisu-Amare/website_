@@ -1,3 +1,4 @@
+// axes-check file
 class QuartoAxeReporter {
   constructor(axeResult, options) {
     this.axeResult = axeResult;
