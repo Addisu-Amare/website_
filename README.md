@@ -1,4 +1,4 @@
-# Quarto Positron Site
+# Quarto  site
 
 This is a Quarto project designed to create an academic website using the Positron theme. The website includes various sections such as publications, teaching, research, and a blog.
 

@@ -1,9 +1,8 @@
 ---
 title: "Teaching"
 author: 
-  - name: Tiffany Timbers 
-    affiliation: Department of Statistics, The University of British Columbia
-date: today
+  - name: Addisu Amare 
+    affiliation: Department of Data science, The University of Skoltech
 format: 
   html:
     toc: true
@@ -12,142 +11,14 @@ format:
 
 ## Courses Taught
 
-Below is the list of courses I have taught at the University of British Columbia.
-
-#### Undergraduate Courses
-
-- **DSCI_V 100: Introduction to Data Science** Use of data science tools to summarize, visualize, and analyze data. Sensible workflows and clear interpretations are emphasized. [[syllabus](https://ubc-dsci.github.io/dsci-100-student/)][[R textbook](https://datasciencebook.ca/)] [[Python textbook](https://python.datasciencebook.ca/)]
-
-- **DSCI_V 310: Reproducible and Trustworthy Workflows for Data Science**
-Data science methods to automate the running and testing of code and analytic reports, manage data analysis software dependencies, package and deploy software for data analysis, and collaborate with others using version control. [[course website](https://ubc-dsci.github.io/dsci-310-student/)] [[course notes](https://ubc-dsci.github.io/reproducible-and-trustworthy-workflows-for-data-science/)]
+Below is the course I have taught at the University of Skoltech,Russia during independent period.
 
 #### Graduate Courses
-
-- **DSCI_V 511 (1) Programming for Data Science**
+- **I30202437 Python for Data Science**
 Pseudo-code. Program design and structure. Flow control. Iteration. Lists (arrays). Functions. File I/O. Classes, objects, methods, and libraries. 
-
-- **DSCI_V 521 (1) Computing Platforms for Data Science**
-Introduction to software, shells, tools, and file systems for use in the Data Science program. Installation, configuration, and use of statistical and programming software including Integrated Development Environments (IDEs). Problem resolution skills.
-
-- **DSCI_V 522 (1) Data Science Workflows**
-Interactive and non-interactive data analysis. Scripting. Dynamic reporting. Reproducibility. Project and file management. Version control. Automated workflows. 
-
-- **DSCI_V 523 (1) Programming for Data Manipulation**
-Program design and data manipulation using industry-standard software tools designed for statistical work. Organizing, filtering, sorting, grouping, reformatting, converting, and cleaning data to prepare it for further analysis.
-
-- **DSCI_V 524 (1) Collaborative Software Development**
-Software life cycle. Unit testing. Continuous integration. Submission to a relevant repository for distribution. Packaging for installation and use by others. Software licenses. Classes and abstraction.
-
-- **DSCI_V 552 (1) Statistical Inference and Computation I**
-Random variables, parameters, observed data, statistics (distinctions and connections). Estimation: point and interval. Two-group comparisons, frequentist version. Simulation-based approaches. 
-
-- **DSCI_V 591 (6) Capstone Project**
-A capstone design project designed to give students experience in leading complex multidisciplinary projects relevant to data science. 
 
 ## Teaching Philosophy
 
-As a result of my experiences,
-I have come to believe the most important things that an educator can do 
-to facilitate student learning 
-is to provide motivation for what is being learned, 
-build a respectful 
-and supportive community for learners, 
-as well as embody responsiveness in their teaching and classroom management. 
-In prioritizing these three aspects of my teaching 
-I hope that I inspire curiosity in the subjects I teach, 
-create a safe and collaborative learning space, 
-as well as reduce friction and barriers to learning. 
+I’ve learned that great teaching isn't just about delivering content—it's about creating the right conditions for learning to happen. My approach rests on three core pillars: sparking genuine motivation, building a supportive community, and staying flexibly responsive to my students' needs. When I get these right, I see curiosity catch fire, collaboration flourish, and obstacles to learning start to fall away
 
-#### Motivation
-I believe that motivation is important for successful learning, 
-as it can energize, direct, and sustain it. 
-One way I motivate students in the classroom 
-is by beginning the presentation of any new topic 
-with real-world problems that they will be able to solve 
-after they master the content and skills we are embarking upon learning. 
-The problems I choose are modern, and relevant to the real world. 
-I often draw these from the Master of Data Science (MDS) Capstone projects. 
-I choose accessible problems,
-which do not require too much domain expertise 
-so that this does not distract from learning 
-the ***data science***^[**Data science:** the process of extracting insight from data through reproducible 
-and auditable methods.] concepts and skills needed for solving the problem. 
 
-Another motivational tactic that I use is live demonstrations 
-of the data products they will build 
-to solve the problems they are learning about. 
-I show them the finished product (*e.g.*, a beautiful data visualization, 
-a data analysis pipeline, a software package), illustrate how it is used, 
-and then pass the product to the students and let them use it. 
-I choose demonstrations that are beautiful, 
-that clearly would take a long time to run, 
-or that would be very brittle if not automated. 
-I also provide story-like narration with the demonstrations, 
-describing the need for the data product, 
-the intended audience for the product 
-and why creating the product in such a way as we did 
-(usually using ***reproducible***^[**Reproducible analysis:** an analysis where the
-same result can be reached given the same input, computational methods, 
-and conditions] and ***transparent**/**auditable***^[**Transparent/Auditable analysis:** an analysis
-where there is a readable record of the steps used to carryout the analysis 
-(*i.e.*, computer code) as well as a record of how the analysis methods evolved 
-(*i.e.,* a version controlled project history).] methods) 
-has advantages over creating it in other ways. 
-Once this motivation is in place, 
-students are keen to learn how to solve the presented problems 
-with the products I demonstrate; their brains are primed for learning. 
-
-#### Building of a respectful and supportive community for all learners
-From my experience, the building of a respectful and supportive community 
-for learners is fundamental for levelling the playing field 
-across a group of heterogeneous learners - 
-which is essentially any group of learners. 
-In a classroom where a respectful and supportive community is not built, 
-only some learners who have certain privileges are likely to succeed. 
-In such an unsafe environment, 
-many learners lacking these certain privileges will become demotivated, 
-frustrated, and feel alone. 
-Their learning will suffer because of this, 
-no matter how well the content is delivered by the teacher. 
-Thus, for each group of learners I teach, I strive to provide scaffolding 
-and guidance to enable the building of a respectful 
-and supportive community for learners using several strategies. 
-
-One thing I do is to provide each group of learners a code of conduct 
-that clearly outlines what behaviours are not acceptable in our learning spaces, 
-and a process for reporting a code of conduct violation. 
-Importantly, I provide contact details for a secondary reporting person, 
-other than myself, 
-in case I am the one to (unintentionally) violate the code of conduct. 
-Another example of how I try to create a respectful and supportive community 
-is through the use of group projects and assignments.
-
-I use randomly assigned groups to encourage learners to interact with others 
-that they might not typically interact with (due to unconscious biases). 
-To facilitate groups working well together, 
-I have them draft a teamwork contract together in their first co-working session. 
-Additionally, students are made aware they will receive a teamwork grade, 
-that is in part informed by their teammates reports 
-on how well they worked together. 
-This social scaffolding around a typically challenging task (group work) 
-helps facilitate the building of collegial 
-and social relationships between learners, 
-and strengthens the community beyond the work done in the group project.
-
-#### Responsive teaching and classroom management
-I also believe that responsiveness in teaching is critical to supporting learning. 
-Each group of learners is different - 
-even two sections of the same course being taught at the same time. 
-Furthermore, the world around us is constantly changing. 
-I am writing this teaching statement in the midst of the global pandemic of 2020/21 - 
-which is the greatest societal shift I have ever lived through. 
-The amount of required flexibility and responsiveness 
-to policies and procedures, technological tools, student capacity, 
-and teacher capacity from March 2020 - onward, 
-when our university shifted to teaching online 
-in less than a week's time was incredible. 
-Embracing responsiveness and flexibility as a teacher in this situation 
-clearly helped support my students through this extremely challenging time. 
-And in reflection, 
-I see that responsiveness in teaching has always been critically important, 
-however I am only now appreciating and emphasizing this fully.

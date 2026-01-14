@@ -1,18 +1,26 @@
 ---
-title: "Tiffany A. Timbers, Ph.D."
-subtitle: "Associate Professor of Teaching, Department of Statistics, UBC"
+title: "Addisu A. Zena, Btech"
 date: today
 format: html
 ---
 
-![](Timbers-Tiffany_5x7.png){width=400px style="float: left; margin-left: 0px;margin-right: 20px; margin-bottom: 10px;"}
+![](addisu_photo.png){width=400px style="float: left; margin-left: 0px;margin-right: 20px; margin-bottom: 10px;"}
 
 ### Bio
 
-Dr. Tiffany Timbers is an Associate Professor of Teaching in the Department of Statistics and Instructor in the Master of Data Science program at the University of British Columbia. She holds a Ph.D. in Neuroscience from UBC and completed postdoctoral research in behavioral and neural genomics at Simon Fraser University, as well as a teaching Postdoctoral fellowship in Data Science at UBC. Dr. Timbers is co-author of three open educational resource textbooks, *Data Science: A First Introduction* (versions in R and Python) and *Python Packages*, all published through CRC Press. She is an internationally recognized leader in statistics and data science education, known for creating broadly accessible learning environments that welcome students from diverse backgrounds. In 2023, she received the Statistical Society of Canada's Early Career Educator Award for her innovative contributions to data science education.
+Addisu is a technology and biomedical enthusiast who holds a Bachelor’s degree in Electronics & Communication Engineering (ECE) and Biomedical Engineering from Vellore Institute of Technology (Class of 2022).  
+
+With a deep interest in programming, data science, and human anatomy and physiology, he continuously works on projects at the intersection of engineering, machine learning, and biomedical research. He is always expanding his skill set through hands-on learning and new technologies.
+
+
+
+###Skills: 
+- Python | MATLAB | LabVIEW  
+- Data Science | Machine Learning  
+
 
 ### Contact
 
-- **email:** tiffany[dot]timbers[at]stat.ubc.ca
-- **Bluesky:** [@tiffanytimbers.bsky.social](https://bsky.app/profile/tiffanytimbers.bsky.social)
-- **LinkedIn:** [profile](https://www.linkedin.com/in/tiffany-timbers-27a45631/)
+- **email:** 0941813057estifanos@gmail.com
+- **LinkedIn:** [profile](https://www.linkedin.com/in/addisu-amare-2643ba16a/)
+-**tiktok:**@tech_guy47

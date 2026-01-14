@@ -22,5 +22,14 @@
   },
   "talks.qmd": {
     "talks.html": "8c42193d"
+  },
+  "blog.qmd": {
+    "blog.html": "99f4dba6"
+  },
+  "project.qmd": {
+    "project.html": "adbb9806"
+  },
+  "Hobbies.qmd": {
+    "Hobbies.html": "3cf0abcc"
   }
 }
