@@ -1,0 +1,3439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Breast Cancer classification Using Machine Learning Classifier – Addisu Amare</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-1db3f541d99483cdc7a0d9cf38862b2c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Addisu Amare</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./research.html"> 
+<span class="menu-text">Scholarship</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./teaching.html"> 
+<span class="menu-text">Teaching</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./publications.html"> 
+<span class="menu-text">Publications</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./talks.html"> 
+<span class="menu-text">Talks &amp; Workshops</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./project.html"> 
+<span class="menu-text">projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Hobbies.html"> 
+<span class="menu-text">My Hobbies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./Jupyter_note_book.html" aria-current="page"> 
+<span class="menu-text">Cancer classification</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Addisu-Amare"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Breast Cancer classification Using Machine Learning Classifier</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="import-libraries" class="level1">
+<h1>Import libraries</h1>
+<div id="5f89b0ed" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># for data manupulation or analysis</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np <span class="co"># for numeric calculation</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># for data visualization</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns <span class="co"># for data visualization</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle <span class="co">#for dumping the model or we can use joblib library</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="0a68a3dc" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppressing Warnings</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="data-load" class="level1">
+<h1>Data Load</h1>
+<div id="95f288f5" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load breast cancer dataset</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="76394307" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Breast cancer dataset for classification</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> load_breast_cancer()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (data.feature_names)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (data.target_names)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['mean radius' 'mean texture' 'mean perimeter' 'mean area'
+ 'mean smoothness' 'mean compactness' 'mean concavity'
+ 'mean concave points' 'mean symmetry' 'mean fractal dimension'
+ 'radius error' 'texture error' 'perimeter error' 'area error'
+ 'smoothness error' 'compactness error' 'concavity error'
+ 'concave points error' 'symmetry error' 'fractal dimension error'
+ 'worst radius' 'worst texture' 'worst perimeter' 'worst area'
+ 'worst smoothness' 'worst compactness' 'worst concavity'
+ 'worst concave points' 'worst symmetry' 'worst fractal dimension']
+['malignant' 'benign']</code></pre>
+</div>
+</div>
+<div id="0226ce80" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cancer_dataset <span class="op">=</span> load_breast_cancer()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="data-manupulation" class="level1">
+<h1>Data Manupulation</h1>
+<div id="e4c9bb85" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(cancer_dataset)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>sklearn.utils._bunch.Bunch</code></pre>
+</div>
+</div>
+<div id="6e97cd0c" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># keys in dataset</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cancer_dataset.keys()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>dict_keys(['data', 'target', 'frame', 'target_names', 'DESCR', 'feature_names', 'filename', 'data_module'])</code></pre>
+</div>
+</div>
+<div id="3defccf0" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># target value name malignant or benign tumor</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>cancer_dataset[<span class="st">'target_names'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>array(['malignant', 'benign'], dtype='&lt;U9')</code></pre>
+</div>
+</div>
+<div id="0b5a348b" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># description of data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cancer_dataset[<span class="st">'DESCR'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.. _breast_cancer_dataset:
+
+Breast cancer wisconsin (diagnostic) dataset
+--------------------------------------------
+
+**Data Set Characteristics:**
+
+    :Number of Instances: 569
+
+    :Number of Attributes: 30 numeric, predictive attributes and the class
+
+    :Attribute Information:
+        - radius (mean of distances from center to points on the perimeter)
+        - texture (standard deviation of gray-scale values)
+        - perimeter
+        - area
+        - smoothness (local variation in radius lengths)
+        - compactness (perimeter^2 / area - 1.0)
+        - concavity (severity of concave portions of the contour)
+        - concave points (number of concave portions of the contour)
+        - symmetry
+        - fractal dimension ("coastline approximation" - 1)
+
+        The mean, standard error, and "worst" or largest (mean of the three
+        worst/largest values) of these features were computed for each image,
+        resulting in 30 features.  For instance, field 0 is Mean Radius, field
+        10 is Radius SE, field 20 is Worst Radius.
+
+        - class:
+                - WDBC-Malignant
+                - WDBC-Benign
+
+    :Summary Statistics:
+
+    ===================================== ====== ======
+                                           Min    Max
+    ===================================== ====== ======
+    radius (mean):                        6.981  28.11
+    texture (mean):                       9.71   39.28
+    perimeter (mean):                     43.79  188.5
+    area (mean):                          143.5  2501.0
+    smoothness (mean):                    0.053  0.163
+    compactness (mean):                   0.019  0.345
+    concavity (mean):                     0.0    0.427
+    concave points (mean):                0.0    0.201
+    symmetry (mean):                      0.106  0.304
+    fractal dimension (mean):             0.05   0.097
+    radius (standard error):              0.112  2.873
+    texture (standard error):             0.36   4.885
+    perimeter (standard error):           0.757  21.98
+    area (standard error):                6.802  542.2
+    smoothness (standard error):          0.002  0.031
+    compactness (standard error):         0.002  0.135
+    concavity (standard error):           0.0    0.396
+    concave points (standard error):      0.0    0.053
+    symmetry (standard error):            0.008  0.079
+    fractal dimension (standard error):   0.001  0.03
+    radius (worst):                       7.93   36.04
+    texture (worst):                      12.02  49.54
+    perimeter (worst):                    50.41  251.2
+    area (worst):                         185.2  4254.0
+    smoothness (worst):                   0.071  0.223
+    compactness (worst):                  0.027  1.058
+    concavity (worst):                    0.0    1.252
+    concave points (worst):               0.0    0.291
+    symmetry (worst):                     0.156  0.664
+    fractal dimension (worst):            0.055  0.208
+    ===================================== ====== ======
+
+    :Missing Attribute Values: None
+
+    :Class Distribution: 212 - Malignant, 357 - Benign
+
+    :Creator:  Dr. William H. Wolberg, W. Nick Street, Olvi L. Mangasarian
+
+    :Donor: Nick Street
+
+    :Date: November, 1995
+
+This is a copy of UCI ML Breast Cancer Wisconsin (Diagnostic) datasets.
+https://goo.gl/U2Uwz2
+
+Features are computed from a digitized image of a fine needle
+aspirate (FNA) of a breast mass.  They describe
+characteristics of the cell nuclei present in the image.
+
+Separating plane described above was obtained using
+Multisurface Method-Tree (MSM-T) [K. P. Bennett, "Decision Tree
+Construction Via Linear Programming." Proceedings of the 4th
+Midwest Artificial Intelligence and Cognitive Science Society,
+pp. 97-101, 1992], a classification method which uses linear
+programming to construct a decision tree.  Relevant features
+were selected using an exhaustive search in the space of 1-4
+features and 1-3 separating planes.
+
+The actual linear program used to obtain the separating plane
+in the 3-dimensional space is that described in:
+[K. P. Bennett and O. L. Mangasarian: "Robust Linear
+Programming Discrimination of Two Linearly Inseparable Sets",
+Optimization Methods and Software 1, 1992, 23-34].
+
+This database is also available through the UW CS ftp server:
+
+ftp ftp.cs.wisc.edu
+cd math-prog/cpo-dataset/machine-learn/WDBC/
+
+|details-start|
+**References**
+|details-split|
+
+- W.N. Street, W.H. Wolberg and O.L. Mangasarian. Nuclear feature extraction 
+  for breast tumor diagnosis. IS&amp;T/SPIE 1993 International Symposium on 
+  Electronic Imaging: Science and Technology, volume 1905, pages 861-870,
+  San Jose, CA, 1993.
+- O.L. Mangasarian, W.N. Street and W.H. Wolberg. Breast cancer diagnosis and 
+  prognosis via linear programming. Operations Research, 43(4), pages 570-577, 
+  July-August 1995.
+- W.H. Wolberg, W.N. Street, and O.L. Mangasarian. Machine learning techniques
+  to diagnose breast cancer from fine-needle aspirates. Cancer Letters 77 (1994) 
+  163-171.
+
+|details-end|</code></pre>
+</div>
+</div>
+<div id="62c082e2" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># name of features</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cancer_dataset[<span class="st">'feature_names'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['mean radius' 'mean texture' 'mean perimeter' 'mean area'
+ 'mean smoothness' 'mean compactness' 'mean concavity'
+ 'mean concave points' 'mean symmetry' 'mean fractal dimension'
+ 'radius error' 'texture error' 'perimeter error' 'area error'
+ 'smoothness error' 'compactness error' 'concavity error'
+ 'concave points error' 'symmetry error' 'fractal dimension error'
+ 'worst radius' 'worst texture' 'worst perimeter' 'worst area'
+ 'worst smoothness' 'worst compactness' 'worst concavity'
+ 'worst concave points' 'worst symmetry' 'worst fractal dimension']</code></pre>
+</div>
+</div>
+<div id="6bbd41b3" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># location/path of data file</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cancer_dataset[<span class="st">'filename'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>breast_cancer.csv</code></pre>
+</div>
+</div>
+<section id="create-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="create-dataframe">Create DataFrame</h2>
+<div id="acf178ac" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create datafrmae</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cancer_df <span class="op">=</span> pd.DataFrame(np.c_[cancer_dataset[<span class="st">'data'</span>],cancer_dataset[<span class="st">'target'</span>]],</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>             columns <span class="op">=</span> np.append(cancer_dataset[<span class="st">'feature_names'</span>], [<span class="st">'target'</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="94bfbc67" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DataFrame to CSV file</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cancer_df.to_csv(<span class="st">'breast_cancer_dataframe.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="82932ca9" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Head of cancer DataFrame</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>cancer_df.head(<span class="dv">6</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>17.99</td>
+<td>10.38</td>
+<td>122.80</td>
+<td>1001.0</td>
+<td>0.11840</td>
+<td>0.27760</td>
+<td>0.3001</td>
+<td>0.14710</td>
+<td>0.2419</td>
+<td>0.07871</td>
+<td>...</td>
+<td>17.33</td>
+<td>184.60</td>
+<td>2019.0</td>
+<td>0.1622</td>
+<td>0.6656</td>
+<td>0.7119</td>
+<td>0.2654</td>
+<td>0.4601</td>
+<td>0.11890</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>20.57</td>
+<td>17.77</td>
+<td>132.90</td>
+<td>1326.0</td>
+<td>0.08474</td>
+<td>0.07864</td>
+<td>0.0869</td>
+<td>0.07017</td>
+<td>0.1812</td>
+<td>0.05667</td>
+<td>...</td>
+<td>23.41</td>
+<td>158.80</td>
+<td>1956.0</td>
+<td>0.1238</td>
+<td>0.1866</td>
+<td>0.2416</td>
+<td>0.1860</td>
+<td>0.2750</td>
+<td>0.08902</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>19.69</td>
+<td>21.25</td>
+<td>130.00</td>
+<td>1203.0</td>
+<td>0.10960</td>
+<td>0.15990</td>
+<td>0.1974</td>
+<td>0.12790</td>
+<td>0.2069</td>
+<td>0.05999</td>
+<td>...</td>
+<td>25.53</td>
+<td>152.50</td>
+<td>1709.0</td>
+<td>0.1444</td>
+<td>0.4245</td>
+<td>0.4504</td>
+<td>0.2430</td>
+<td>0.3613</td>
+<td>0.08758</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>11.42</td>
+<td>20.38</td>
+<td>77.58</td>
+<td>386.1</td>
+<td>0.14250</td>
+<td>0.28390</td>
+<td>0.2414</td>
+<td>0.10520</td>
+<td>0.2597</td>
+<td>0.09744</td>
+<td>...</td>
+<td>26.50</td>
+<td>98.87</td>
+<td>567.7</td>
+<td>0.2098</td>
+<td>0.8663</td>
+<td>0.6869</td>
+<td>0.2575</td>
+<td>0.6638</td>
+<td>0.17300</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>20.29</td>
+<td>14.34</td>
+<td>135.10</td>
+<td>1297.0</td>
+<td>0.10030</td>
+<td>0.13280</td>
+<td>0.1980</td>
+<td>0.10430</td>
+<td>0.1809</td>
+<td>0.05883</td>
+<td>...</td>
+<td>16.67</td>
+<td>152.20</td>
+<td>1575.0</td>
+<td>0.1374</td>
+<td>0.2050</td>
+<td>0.4000</td>
+<td>0.1625</td>
+<td>0.2364</td>
+<td>0.07678</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>12.45</td>
+<td>15.70</td>
+<td>82.57</td>
+<td>477.1</td>
+<td>0.12780</td>
+<td>0.17000</td>
+<td>0.1578</td>
+<td>0.08089</td>
+<td>0.2087</td>
+<td>0.07613</td>
+<td>...</td>
+<td>23.75</td>
+<td>103.40</td>
+<td>741.6</td>
+<td>0.1791</td>
+<td>0.5249</td>
+<td>0.5355</td>
+<td>0.1741</td>
+<td>0.3985</td>
+<td>0.12440</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>6 rows × 31 columns</p>
+</div>
+</div>
+</div>
+<div id="cba636c1" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tail of cancer DataFrame</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>cancer_df.tail(<span class="dv">6</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">563</th>
+<td>20.92</td>
+<td>25.09</td>
+<td>143.00</td>
+<td>1347.0</td>
+<td>0.10990</td>
+<td>0.22360</td>
+<td>0.31740</td>
+<td>0.14740</td>
+<td>0.2149</td>
+<td>0.06879</td>
+<td>...</td>
+<td>29.41</td>
+<td>179.10</td>
+<td>1819.0</td>
+<td>0.14070</td>
+<td>0.41860</td>
+<td>0.6599</td>
+<td>0.2542</td>
+<td>0.2929</td>
+<td>0.09873</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">564</th>
+<td>21.56</td>
+<td>22.39</td>
+<td>142.00</td>
+<td>1479.0</td>
+<td>0.11100</td>
+<td>0.11590</td>
+<td>0.24390</td>
+<td>0.13890</td>
+<td>0.1726</td>
+<td>0.05623</td>
+<td>...</td>
+<td>26.40</td>
+<td>166.10</td>
+<td>2027.0</td>
+<td>0.14100</td>
+<td>0.21130</td>
+<td>0.4107</td>
+<td>0.2216</td>
+<td>0.2060</td>
+<td>0.07115</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">565</th>
+<td>20.13</td>
+<td>28.25</td>
+<td>131.20</td>
+<td>1261.0</td>
+<td>0.09780</td>
+<td>0.10340</td>
+<td>0.14400</td>
+<td>0.09791</td>
+<td>0.1752</td>
+<td>0.05533</td>
+<td>...</td>
+<td>38.25</td>
+<td>155.00</td>
+<td>1731.0</td>
+<td>0.11660</td>
+<td>0.19220</td>
+<td>0.3215</td>
+<td>0.1628</td>
+<td>0.2572</td>
+<td>0.06637</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">566</th>
+<td>16.60</td>
+<td>28.08</td>
+<td>108.30</td>
+<td>858.1</td>
+<td>0.08455</td>
+<td>0.10230</td>
+<td>0.09251</td>
+<td>0.05302</td>
+<td>0.1590</td>
+<td>0.05648</td>
+<td>...</td>
+<td>34.12</td>
+<td>126.70</td>
+<td>1124.0</td>
+<td>0.11390</td>
+<td>0.30940</td>
+<td>0.3403</td>
+<td>0.1418</td>
+<td>0.2218</td>
+<td>0.07820</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">567</th>
+<td>20.60</td>
+<td>29.33</td>
+<td>140.10</td>
+<td>1265.0</td>
+<td>0.11780</td>
+<td>0.27700</td>
+<td>0.35140</td>
+<td>0.15200</td>
+<td>0.2397</td>
+<td>0.07016</td>
+<td>...</td>
+<td>39.42</td>
+<td>184.60</td>
+<td>1821.0</td>
+<td>0.16500</td>
+<td>0.86810</td>
+<td>0.9387</td>
+<td>0.2650</td>
+<td>0.4087</td>
+<td>0.12400</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">568</th>
+<td>7.76</td>
+<td>24.54</td>
+<td>47.92</td>
+<td>181.0</td>
+<td>0.05263</td>
+<td>0.04362</td>
+<td>0.00000</td>
+<td>0.00000</td>
+<td>0.1587</td>
+<td>0.05884</td>
+<td>...</td>
+<td>30.37</td>
+<td>59.16</td>
+<td>268.6</td>
+<td>0.08996</td>
+<td>0.06444</td>
+<td>0.0000</td>
+<td>0.0000</td>
+<td>0.2871</td>
+<td>0.07039</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>6 rows × 31 columns</p>
+</div>
+</div>
+</div>
+<div id="28b6dad8" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Information of cancer Dataframe</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>cancer_df.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 569 entries, 0 to 568
+Data columns (total 31 columns):
+ #   Column                   Non-Null Count  Dtype  
+---  ------                   --------------  -----  
+ 0   mean radius              569 non-null    float64
+ 1   mean texture             569 non-null    float64
+ 2   mean perimeter           569 non-null    float64
+ 3   mean area                569 non-null    float64
+ 4   mean smoothness          569 non-null    float64
+ 5   mean compactness         569 non-null    float64
+ 6   mean concavity           569 non-null    float64
+ 7   mean concave points      569 non-null    float64
+ 8   mean symmetry            569 non-null    float64
+ 9   mean fractal dimension   569 non-null    float64
+ 10  radius error             569 non-null    float64
+ 11  texture error            569 non-null    float64
+ 12  perimeter error          569 non-null    float64
+ 13  area error               569 non-null    float64
+ 14  smoothness error         569 non-null    float64
+ 15  compactness error        569 non-null    float64
+ 16  concavity error          569 non-null    float64
+ 17  concave points error     569 non-null    float64
+ 18  symmetry error           569 non-null    float64
+ 19  fractal dimension error  569 non-null    float64
+ 20  worst radius             569 non-null    float64
+ 21  worst texture            569 non-null    float64
+ 22  worst perimeter          569 non-null    float64
+ 23  worst area               569 non-null    float64
+ 24  worst smoothness         569 non-null    float64
+ 25  worst compactness        569 non-null    float64
+ 26  worst concavity          569 non-null    float64
+ 27  worst concave points     569 non-null    float64
+ 28  worst symmetry           569 non-null    float64
+ 29  worst fractal dimension  569 non-null    float64
+ 30  target                   569 non-null    float64
+dtypes: float64(31)
+memory usage: 137.9 KB</code></pre>
+</div>
+</div>
+<div id="e4156715" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerical distribution of data</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cancer_df.describe() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">count</th>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>...</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+<td>569.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean</th>
+<td>14.127292</td>
+<td>19.289649</td>
+<td>91.969033</td>
+<td>654.889104</td>
+<td>0.096360</td>
+<td>0.104341</td>
+<td>0.088799</td>
+<td>0.048919</td>
+<td>0.181162</td>
+<td>0.062798</td>
+<td>...</td>
+<td>25.677223</td>
+<td>107.261213</td>
+<td>880.583128</td>
+<td>0.132369</td>
+<td>0.254265</td>
+<td>0.272188</td>
+<td>0.114606</td>
+<td>0.290076</td>
+<td>0.083946</td>
+<td>0.627417</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">std</th>
+<td>3.524049</td>
+<td>4.301036</td>
+<td>24.298981</td>
+<td>351.914129</td>
+<td>0.014064</td>
+<td>0.052813</td>
+<td>0.079720</td>
+<td>0.038803</td>
+<td>0.027414</td>
+<td>0.007060</td>
+<td>...</td>
+<td>6.146258</td>
+<td>33.602542</td>
+<td>569.356993</td>
+<td>0.022832</td>
+<td>0.157336</td>
+<td>0.208624</td>
+<td>0.065732</td>
+<td>0.061867</td>
+<td>0.018061</td>
+<td>0.483918</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">min</th>
+<td>6.981000</td>
+<td>9.710000</td>
+<td>43.790000</td>
+<td>143.500000</td>
+<td>0.052630</td>
+<td>0.019380</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.106000</td>
+<td>0.049960</td>
+<td>...</td>
+<td>12.020000</td>
+<td>50.410000</td>
+<td>185.200000</td>
+<td>0.071170</td>
+<td>0.027290</td>
+<td>0.000000</td>
+<td>0.000000</td>
+<td>0.156500</td>
+<td>0.055040</td>
+<td>0.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">25%</th>
+<td>11.700000</td>
+<td>16.170000</td>
+<td>75.170000</td>
+<td>420.300000</td>
+<td>0.086370</td>
+<td>0.064920</td>
+<td>0.029560</td>
+<td>0.020310</td>
+<td>0.161900</td>
+<td>0.057700</td>
+<td>...</td>
+<td>21.080000</td>
+<td>84.110000</td>
+<td>515.300000</td>
+<td>0.116600</td>
+<td>0.147200</td>
+<td>0.114500</td>
+<td>0.064930</td>
+<td>0.250400</td>
+<td>0.071460</td>
+<td>0.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">50%</th>
+<td>13.370000</td>
+<td>18.840000</td>
+<td>86.240000</td>
+<td>551.100000</td>
+<td>0.095870</td>
+<td>0.092630</td>
+<td>0.061540</td>
+<td>0.033500</td>
+<td>0.179200</td>
+<td>0.061540</td>
+<td>...</td>
+<td>25.410000</td>
+<td>97.660000</td>
+<td>686.500000</td>
+<td>0.131300</td>
+<td>0.211900</td>
+<td>0.226700</td>
+<td>0.099930</td>
+<td>0.282200</td>
+<td>0.080040</td>
+<td>1.000000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">75%</th>
+<td>15.780000</td>
+<td>21.800000</td>
+<td>104.100000</td>
+<td>782.700000</td>
+<td>0.105300</td>
+<td>0.130400</td>
+<td>0.130700</td>
+<td>0.074000</td>
+<td>0.195700</td>
+<td>0.066120</td>
+<td>...</td>
+<td>29.720000</td>
+<td>125.400000</td>
+<td>1084.000000</td>
+<td>0.146000</td>
+<td>0.339100</td>
+<td>0.382900</td>
+<td>0.161400</td>
+<td>0.317900</td>
+<td>0.092080</td>
+<td>1.000000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">max</th>
+<td>28.110000</td>
+<td>39.280000</td>
+<td>188.500000</td>
+<td>2501.000000</td>
+<td>0.163400</td>
+<td>0.345400</td>
+<td>0.426800</td>
+<td>0.201200</td>
+<td>0.304000</td>
+<td>0.097440</td>
+<td>...</td>
+<td>49.540000</td>
+<td>251.200000</td>
+<td>4254.000000</td>
+<td>0.222600</td>
+<td>1.058000</td>
+<td>1.252000</td>
+<td>0.291000</td>
+<td>0.663800</td>
+<td>0.207500</td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+
+<p>8 rows × 31 columns</p>
+</div>
+</div>
+</div>
+<div id="814b8d29" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cancer_df.isnull().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>mean radius                0
+mean texture               0
+mean perimeter             0
+mean area                  0
+mean smoothness            0
+mean compactness           0
+mean concavity             0
+mean concave points        0
+mean symmetry              0
+mean fractal dimension     0
+radius error               0
+texture error              0
+perimeter error            0
+area error                 0
+smoothness error           0
+compactness error          0
+concavity error            0
+concave points error       0
+symmetry error             0
+fractal dimension error    0
+worst radius               0
+worst texture              0
+worst perimeter            0
+worst area                 0
+worst smoothness           0
+worst compactness          0
+worst concavity            0
+worst concave points       0
+worst symmetry             0
+worst fractal dimension    0
+target                     0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="data-visualization" class="level1">
+<h1>Data Visualization</h1>
+<div id="f648a1e3" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pair plot of sample feature</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sns.pairplot(cancer_df, hue <span class="op">=</span> <span class="st">'target'</span>, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>             <span class="bu">vars</span> <span class="op">=</span> [<span class="st">'mean radius'</span>, <span class="st">'mean texture'</span>, <span class="st">'mean perimeter'</span>, <span class="st">'mean area'</span>, <span class="st">'mean smoothness'</span>] ) <span class="co"># ****** img 5 ***</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Jupyter_note_book_files/figure-html/cell-20-output-1.png" width="1262" height="1182" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="8aa6cda1" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the target class</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sns.countplot(cancer_df[<span class="st">'target'</span>]) <span class="co">#  **************************** img 5 *************************  </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Jupyter_note_book_files/figure-html/cell-21-output-1.png" width="593" height="411" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="22e44d53" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># counter plot of feature mean radius</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize <span class="op">=</span> (<span class="dv">20</span>,<span class="dv">8</span>))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>sns.countplot(cancer_df[<span class="st">'mean radius'</span>]) <span class="co"># *** img 7 ****</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Jupyter_note_book_files/figure-html/cell-22-output-1.png" width="1560" height="633" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="heatmap-of-a-correlation-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="heatmap-of-a-correlation-matrix">Heatmap of a correlation matrix</h2>
+<div id="0ddc7b40" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cancer_df.corr()<span class="co">#gives the correlation between them</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+<th data-quarto-table-cell-role="th">target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">mean radius</th>
+<td>1.000000</td>
+<td>0.323782</td>
+<td>0.997855</td>
+<td>0.987357</td>
+<td>0.170581</td>
+<td>0.506124</td>
+<td>0.676764</td>
+<td>0.822529</td>
+<td>0.147741</td>
+<td>-0.311631</td>
+<td>...</td>
+<td>0.297008</td>
+<td>0.965137</td>
+<td>0.941082</td>
+<td>0.119616</td>
+<td>0.413463</td>
+<td>0.526911</td>
+<td>0.744214</td>
+<td>0.163953</td>
+<td>0.007066</td>
+<td>-0.730029</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean texture</th>
+<td>0.323782</td>
+<td>1.000000</td>
+<td>0.329533</td>
+<td>0.321086</td>
+<td>-0.023389</td>
+<td>0.236702</td>
+<td>0.302418</td>
+<td>0.293464</td>
+<td>0.071401</td>
+<td>-0.076437</td>
+<td>...</td>
+<td>0.912045</td>
+<td>0.358040</td>
+<td>0.343546</td>
+<td>0.077503</td>
+<td>0.277830</td>
+<td>0.301025</td>
+<td>0.295316</td>
+<td>0.105008</td>
+<td>0.119205</td>
+<td>-0.415185</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<td>0.997855</td>
+<td>0.329533</td>
+<td>1.000000</td>
+<td>0.986507</td>
+<td>0.207278</td>
+<td>0.556936</td>
+<td>0.716136</td>
+<td>0.850977</td>
+<td>0.183027</td>
+<td>-0.261477</td>
+<td>...</td>
+<td>0.303038</td>
+<td>0.970387</td>
+<td>0.941550</td>
+<td>0.150549</td>
+<td>0.455774</td>
+<td>0.563879</td>
+<td>0.771241</td>
+<td>0.189115</td>
+<td>0.051019</td>
+<td>-0.742636</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean area</th>
+<td>0.987357</td>
+<td>0.321086</td>
+<td>0.986507</td>
+<td>1.000000</td>
+<td>0.177028</td>
+<td>0.498502</td>
+<td>0.685983</td>
+<td>0.823269</td>
+<td>0.151293</td>
+<td>-0.283110</td>
+<td>...</td>
+<td>0.287489</td>
+<td>0.959120</td>
+<td>0.959213</td>
+<td>0.123523</td>
+<td>0.390410</td>
+<td>0.512606</td>
+<td>0.722017</td>
+<td>0.143570</td>
+<td>0.003738</td>
+<td>-0.708984</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<td>0.170581</td>
+<td>-0.023389</td>
+<td>0.207278</td>
+<td>0.177028</td>
+<td>1.000000</td>
+<td>0.659123</td>
+<td>0.521984</td>
+<td>0.553695</td>
+<td>0.557775</td>
+<td>0.584792</td>
+<td>...</td>
+<td>0.036072</td>
+<td>0.238853</td>
+<td>0.206718</td>
+<td>0.805324</td>
+<td>0.472468</td>
+<td>0.434926</td>
+<td>0.503053</td>
+<td>0.394309</td>
+<td>0.499316</td>
+<td>-0.358560</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<td>0.506124</td>
+<td>0.236702</td>
+<td>0.556936</td>
+<td>0.498502</td>
+<td>0.659123</td>
+<td>1.000000</td>
+<td>0.883121</td>
+<td>0.831135</td>
+<td>0.602641</td>
+<td>0.565369</td>
+<td>...</td>
+<td>0.248133</td>
+<td>0.590210</td>
+<td>0.509604</td>
+<td>0.565541</td>
+<td>0.865809</td>
+<td>0.816275</td>
+<td>0.815573</td>
+<td>0.510223</td>
+<td>0.687382</td>
+<td>-0.596534</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<td>0.676764</td>
+<td>0.302418</td>
+<td>0.716136</td>
+<td>0.685983</td>
+<td>0.521984</td>
+<td>0.883121</td>
+<td>1.000000</td>
+<td>0.921391</td>
+<td>0.500667</td>
+<td>0.336783</td>
+<td>...</td>
+<td>0.299879</td>
+<td>0.729565</td>
+<td>0.675987</td>
+<td>0.448822</td>
+<td>0.754968</td>
+<td>0.884103</td>
+<td>0.861323</td>
+<td>0.409464</td>
+<td>0.514930</td>
+<td>-0.696360</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<td>0.822529</td>
+<td>0.293464</td>
+<td>0.850977</td>
+<td>0.823269</td>
+<td>0.553695</td>
+<td>0.831135</td>
+<td>0.921391</td>
+<td>1.000000</td>
+<td>0.462497</td>
+<td>0.166917</td>
+<td>...</td>
+<td>0.292752</td>
+<td>0.855923</td>
+<td>0.809630</td>
+<td>0.452753</td>
+<td>0.667454</td>
+<td>0.752399</td>
+<td>0.910155</td>
+<td>0.375744</td>
+<td>0.368661</td>
+<td>-0.776614</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<td>0.147741</td>
+<td>0.071401</td>
+<td>0.183027</td>
+<td>0.151293</td>
+<td>0.557775</td>
+<td>0.602641</td>
+<td>0.500667</td>
+<td>0.462497</td>
+<td>1.000000</td>
+<td>0.479921</td>
+<td>...</td>
+<td>0.090651</td>
+<td>0.219169</td>
+<td>0.177193</td>
+<td>0.426675</td>
+<td>0.473200</td>
+<td>0.433721</td>
+<td>0.430297</td>
+<td>0.699826</td>
+<td>0.438413</td>
+<td>-0.330499</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<td>-0.311631</td>
+<td>-0.076437</td>
+<td>-0.261477</td>
+<td>-0.283110</td>
+<td>0.584792</td>
+<td>0.565369</td>
+<td>0.336783</td>
+<td>0.166917</td>
+<td>0.479921</td>
+<td>1.000000</td>
+<td>...</td>
+<td>-0.051269</td>
+<td>-0.205151</td>
+<td>-0.231854</td>
+<td>0.504942</td>
+<td>0.458798</td>
+<td>0.346234</td>
+<td>0.175325</td>
+<td>0.334019</td>
+<td>0.767297</td>
+<td>0.012838</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">radius error</th>
+<td>0.679090</td>
+<td>0.275869</td>
+<td>0.691765</td>
+<td>0.732562</td>
+<td>0.301467</td>
+<td>0.497473</td>
+<td>0.631925</td>
+<td>0.698050</td>
+<td>0.303379</td>
+<td>0.000111</td>
+<td>...</td>
+<td>0.194799</td>
+<td>0.719684</td>
+<td>0.751548</td>
+<td>0.141919</td>
+<td>0.287103</td>
+<td>0.380585</td>
+<td>0.531062</td>
+<td>0.094543</td>
+<td>0.049559</td>
+<td>-0.567134</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">texture error</th>
+<td>-0.097317</td>
+<td>0.386358</td>
+<td>-0.086761</td>
+<td>-0.066280</td>
+<td>0.068406</td>
+<td>0.046205</td>
+<td>0.076218</td>
+<td>0.021480</td>
+<td>0.128053</td>
+<td>0.164174</td>
+<td>...</td>
+<td>0.409003</td>
+<td>-0.102242</td>
+<td>-0.083195</td>
+<td>-0.073658</td>
+<td>-0.092439</td>
+<td>-0.068956</td>
+<td>-0.119638</td>
+<td>-0.128215</td>
+<td>-0.045655</td>
+<td>0.008303</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">perimeter error</th>
+<td>0.674172</td>
+<td>0.281673</td>
+<td>0.693135</td>
+<td>0.726628</td>
+<td>0.296092</td>
+<td>0.548905</td>
+<td>0.660391</td>
+<td>0.710650</td>
+<td>0.313893</td>
+<td>0.039830</td>
+<td>...</td>
+<td>0.200371</td>
+<td>0.721031</td>
+<td>0.730713</td>
+<td>0.130054</td>
+<td>0.341919</td>
+<td>0.418899</td>
+<td>0.554897</td>
+<td>0.109930</td>
+<td>0.085433</td>
+<td>-0.556141</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">area error</th>
+<td>0.735864</td>
+<td>0.259845</td>
+<td>0.744983</td>
+<td>0.800086</td>
+<td>0.246552</td>
+<td>0.455653</td>
+<td>0.617427</td>
+<td>0.690299</td>
+<td>0.223970</td>
+<td>-0.090170</td>
+<td>...</td>
+<td>0.196497</td>
+<td>0.761213</td>
+<td>0.811408</td>
+<td>0.125389</td>
+<td>0.283257</td>
+<td>0.385100</td>
+<td>0.538166</td>
+<td>0.074126</td>
+<td>0.017539</td>
+<td>-0.548236</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">smoothness error</th>
+<td>-0.222600</td>
+<td>0.006614</td>
+<td>-0.202694</td>
+<td>-0.166777</td>
+<td>0.332375</td>
+<td>0.135299</td>
+<td>0.098564</td>
+<td>0.027653</td>
+<td>0.187321</td>
+<td>0.401964</td>
+<td>...</td>
+<td>-0.074743</td>
+<td>-0.217304</td>
+<td>-0.182195</td>
+<td>0.314457</td>
+<td>-0.055558</td>
+<td>-0.058298</td>
+<td>-0.102007</td>
+<td>-0.107342</td>
+<td>0.101480</td>
+<td>0.067016</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">compactness error</th>
+<td>0.206000</td>
+<td>0.191975</td>
+<td>0.250744</td>
+<td>0.212583</td>
+<td>0.318943</td>
+<td>0.738722</td>
+<td>0.670279</td>
+<td>0.490424</td>
+<td>0.421659</td>
+<td>0.559837</td>
+<td>...</td>
+<td>0.143003</td>
+<td>0.260516</td>
+<td>0.199371</td>
+<td>0.227394</td>
+<td>0.678780</td>
+<td>0.639147</td>
+<td>0.483208</td>
+<td>0.277878</td>
+<td>0.590973</td>
+<td>-0.292999</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">concavity error</th>
+<td>0.194204</td>
+<td>0.143293</td>
+<td>0.228082</td>
+<td>0.207660</td>
+<td>0.248396</td>
+<td>0.570517</td>
+<td>0.691270</td>
+<td>0.439167</td>
+<td>0.342627</td>
+<td>0.446630</td>
+<td>...</td>
+<td>0.100241</td>
+<td>0.226680</td>
+<td>0.188353</td>
+<td>0.168481</td>
+<td>0.484858</td>
+<td>0.662564</td>
+<td>0.440472</td>
+<td>0.197788</td>
+<td>0.439329</td>
+<td>-0.253730</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">concave points error</th>
+<td>0.376169</td>
+<td>0.163851</td>
+<td>0.407217</td>
+<td>0.372320</td>
+<td>0.380676</td>
+<td>0.642262</td>
+<td>0.683260</td>
+<td>0.615634</td>
+<td>0.393298</td>
+<td>0.341198</td>
+<td>...</td>
+<td>0.086741</td>
+<td>0.394999</td>
+<td>0.342271</td>
+<td>0.215351</td>
+<td>0.452888</td>
+<td>0.549592</td>
+<td>0.602450</td>
+<td>0.143116</td>
+<td>0.310655</td>
+<td>-0.408042</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">symmetry error</th>
+<td>-0.104321</td>
+<td>0.009127</td>
+<td>-0.081629</td>
+<td>-0.072497</td>
+<td>0.200774</td>
+<td>0.229977</td>
+<td>0.178009</td>
+<td>0.095351</td>
+<td>0.449137</td>
+<td>0.345007</td>
+<td>...</td>
+<td>-0.077473</td>
+<td>-0.103753</td>
+<td>-0.110343</td>
+<td>-0.012662</td>
+<td>0.060255</td>
+<td>0.037119</td>
+<td>-0.030413</td>
+<td>0.389402</td>
+<td>0.078079</td>
+<td>0.006522</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">fractal dimension error</th>
+<td>-0.042641</td>
+<td>0.054458</td>
+<td>-0.005523</td>
+<td>-0.019887</td>
+<td>0.283607</td>
+<td>0.507318</td>
+<td>0.449301</td>
+<td>0.257584</td>
+<td>0.331786</td>
+<td>0.688132</td>
+<td>...</td>
+<td>-0.003195</td>
+<td>-0.001000</td>
+<td>-0.022736</td>
+<td>0.170568</td>
+<td>0.390159</td>
+<td>0.379975</td>
+<td>0.215204</td>
+<td>0.111094</td>
+<td>0.591328</td>
+<td>-0.077972</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">worst radius</th>
+<td>0.969539</td>
+<td>0.352573</td>
+<td>0.969476</td>
+<td>0.962746</td>
+<td>0.213120</td>
+<td>0.535315</td>
+<td>0.688236</td>
+<td>0.830318</td>
+<td>0.185728</td>
+<td>-0.253691</td>
+<td>...</td>
+<td>0.359921</td>
+<td>0.993708</td>
+<td>0.984015</td>
+<td>0.216574</td>
+<td>0.475820</td>
+<td>0.573975</td>
+<td>0.787424</td>
+<td>0.243529</td>
+<td>0.093492</td>
+<td>-0.776454</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">worst texture</th>
+<td>0.297008</td>
+<td>0.912045</td>
+<td>0.303038</td>
+<td>0.287489</td>
+<td>0.036072</td>
+<td>0.248133</td>
+<td>0.299879</td>
+<td>0.292752</td>
+<td>0.090651</td>
+<td>-0.051269</td>
+<td>...</td>
+<td>1.000000</td>
+<td>0.365098</td>
+<td>0.345842</td>
+<td>0.225429</td>
+<td>0.360832</td>
+<td>0.368366</td>
+<td>0.359755</td>
+<td>0.233027</td>
+<td>0.219122</td>
+<td>-0.456903</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<td>0.965137</td>
+<td>0.358040</td>
+<td>0.970387</td>
+<td>0.959120</td>
+<td>0.238853</td>
+<td>0.590210</td>
+<td>0.729565</td>
+<td>0.855923</td>
+<td>0.219169</td>
+<td>-0.205151</td>
+<td>...</td>
+<td>0.365098</td>
+<td>1.000000</td>
+<td>0.977578</td>
+<td>0.236775</td>
+<td>0.529408</td>
+<td>0.618344</td>
+<td>0.816322</td>
+<td>0.269493</td>
+<td>0.138957</td>
+<td>-0.782914</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">worst area</th>
+<td>0.941082</td>
+<td>0.343546</td>
+<td>0.941550</td>
+<td>0.959213</td>
+<td>0.206718</td>
+<td>0.509604</td>
+<td>0.675987</td>
+<td>0.809630</td>
+<td>0.177193</td>
+<td>-0.231854</td>
+<td>...</td>
+<td>0.345842</td>
+<td>0.977578</td>
+<td>1.000000</td>
+<td>0.209145</td>
+<td>0.438296</td>
+<td>0.543331</td>
+<td>0.747419</td>
+<td>0.209146</td>
+<td>0.079647</td>
+<td>-0.733825</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<td>0.119616</td>
+<td>0.077503</td>
+<td>0.150549</td>
+<td>0.123523</td>
+<td>0.805324</td>
+<td>0.565541</td>
+<td>0.448822</td>
+<td>0.452753</td>
+<td>0.426675</td>
+<td>0.504942</td>
+<td>...</td>
+<td>0.225429</td>
+<td>0.236775</td>
+<td>0.209145</td>
+<td>1.000000</td>
+<td>0.568187</td>
+<td>0.518523</td>
+<td>0.547691</td>
+<td>0.493838</td>
+<td>0.617624</td>
+<td>-0.421465</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<td>0.413463</td>
+<td>0.277830</td>
+<td>0.455774</td>
+<td>0.390410</td>
+<td>0.472468</td>
+<td>0.865809</td>
+<td>0.754968</td>
+<td>0.667454</td>
+<td>0.473200</td>
+<td>0.458798</td>
+<td>...</td>
+<td>0.360832</td>
+<td>0.529408</td>
+<td>0.438296</td>
+<td>0.568187</td>
+<td>1.000000</td>
+<td>0.892261</td>
+<td>0.801080</td>
+<td>0.614441</td>
+<td>0.810455</td>
+<td>-0.590998</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<td>0.526911</td>
+<td>0.301025</td>
+<td>0.563879</td>
+<td>0.512606</td>
+<td>0.434926</td>
+<td>0.816275</td>
+<td>0.884103</td>
+<td>0.752399</td>
+<td>0.433721</td>
+<td>0.346234</td>
+<td>...</td>
+<td>0.368366</td>
+<td>0.618344</td>
+<td>0.543331</td>
+<td>0.518523</td>
+<td>0.892261</td>
+<td>1.000000</td>
+<td>0.855434</td>
+<td>0.532520</td>
+<td>0.686511</td>
+<td>-0.659610</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<td>0.744214</td>
+<td>0.295316</td>
+<td>0.771241</td>
+<td>0.722017</td>
+<td>0.503053</td>
+<td>0.815573</td>
+<td>0.861323</td>
+<td>0.910155</td>
+<td>0.430297</td>
+<td>0.175325</td>
+<td>...</td>
+<td>0.359755</td>
+<td>0.816322</td>
+<td>0.747419</td>
+<td>0.547691</td>
+<td>0.801080</td>
+<td>0.855434</td>
+<td>1.000000</td>
+<td>0.502528</td>
+<td>0.511114</td>
+<td>-0.793566</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<td>0.163953</td>
+<td>0.105008</td>
+<td>0.189115</td>
+<td>0.143570</td>
+<td>0.394309</td>
+<td>0.510223</td>
+<td>0.409464</td>
+<td>0.375744</td>
+<td>0.699826</td>
+<td>0.334019</td>
+<td>...</td>
+<td>0.233027</td>
+<td>0.269493</td>
+<td>0.209146</td>
+<td>0.493838</td>
+<td>0.614441</td>
+<td>0.532520</td>
+<td>0.502528</td>
+<td>1.000000</td>
+<td>0.537848</td>
+<td>-0.416294</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+<td>0.007066</td>
+<td>0.119205</td>
+<td>0.051019</td>
+<td>0.003738</td>
+<td>0.499316</td>
+<td>0.687382</td>
+<td>0.514930</td>
+<td>0.368661</td>
+<td>0.438413</td>
+<td>0.767297</td>
+<td>...</td>
+<td>0.219122</td>
+<td>0.138957</td>
+<td>0.079647</td>
+<td>0.617624</td>
+<td>0.810455</td>
+<td>0.686511</td>
+<td>0.511114</td>
+<td>0.537848</td>
+<td>1.000000</td>
+<td>-0.323872</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">target</th>
+<td>-0.730029</td>
+<td>-0.415185</td>
+<td>-0.742636</td>
+<td>-0.708984</td>
+<td>-0.358560</td>
+<td>-0.596534</td>
+<td>-0.696360</td>
+<td>-0.776614</td>
+<td>-0.330499</td>
+<td>0.012838</td>
+<td>...</td>
+<td>-0.456903</td>
+<td>-0.782914</td>
+<td>-0.733825</td>
+<td>-0.421465</td>
+<td>-0.590998</td>
+<td>-0.659610</td>
+<td>-0.793566</td>
+<td>-0.416294</td>
+<td>-0.323872</td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+
+<p>31 rows × 31 columns</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="correlation-barplot" class="level1">
+<h1>Correlation Barplot</h1>
+<div id="4a121aa9" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create second DataFrame by droping target</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>cancer_df2 <span class="op">=</span> cancer_df.drop([<span class="st">'target'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The shape of 'cancer_df2' is : "</span>, cancer_df2.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The shape of 'cancer_df2' is :  (569, 30)</code></pre>
+</div>
+</div>
+<div id="97909c53" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cancer_df2.corrwith(cancer_df.target)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c48de909" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>cancer_df2.corrwith(cancer_df.target).index</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>Index(['mean radius', 'mean texture', 'mean perimeter', 'mean area',
+       'mean smoothness', 'mean compactness', 'mean concavity',
+       'mean concave points', 'mean symmetry', 'mean fractal dimension',
+       'radius error', 'texture error', 'perimeter error', 'area error',
+       'smoothness error', 'compactness error', 'concavity error',
+       'concave points error', 'symmetry error', 'fractal dimension error',
+       'worst radius', 'worst texture', 'worst perimeter', 'worst area',
+       'worst smoothness', 'worst compactness', 'worst concavity',
+       'worst concave points', 'worst symmetry', 'worst fractal dimension'],
+      dtype='object')</code></pre>
+</div>
+</div>
+</section>
+<section id="split-datframe-in-train-and-test" class="level1">
+<h1>Split DatFrame in Train and Test</h1>
+<div id="aa8659fe" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># input variable</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> cancer_df.drop([<span class="st">'target'</span>], axis <span class="op">=</span> <span class="dv">1</span>) </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>X.head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst radius</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>17.99</td>
+<td>10.38</td>
+<td>122.80</td>
+<td>1001.0</td>
+<td>0.11840</td>
+<td>0.27760</td>
+<td>0.3001</td>
+<td>0.14710</td>
+<td>0.2419</td>
+<td>0.07871</td>
+<td>...</td>
+<td>25.38</td>
+<td>17.33</td>
+<td>184.60</td>
+<td>2019.0</td>
+<td>0.1622</td>
+<td>0.6656</td>
+<td>0.7119</td>
+<td>0.2654</td>
+<td>0.4601</td>
+<td>0.11890</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>20.57</td>
+<td>17.77</td>
+<td>132.90</td>
+<td>1326.0</td>
+<td>0.08474</td>
+<td>0.07864</td>
+<td>0.0869</td>
+<td>0.07017</td>
+<td>0.1812</td>
+<td>0.05667</td>
+<td>...</td>
+<td>24.99</td>
+<td>23.41</td>
+<td>158.80</td>
+<td>1956.0</td>
+<td>0.1238</td>
+<td>0.1866</td>
+<td>0.2416</td>
+<td>0.1860</td>
+<td>0.2750</td>
+<td>0.08902</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>19.69</td>
+<td>21.25</td>
+<td>130.00</td>
+<td>1203.0</td>
+<td>0.10960</td>
+<td>0.15990</td>
+<td>0.1974</td>
+<td>0.12790</td>
+<td>0.2069</td>
+<td>0.05999</td>
+<td>...</td>
+<td>23.57</td>
+<td>25.53</td>
+<td>152.50</td>
+<td>1709.0</td>
+<td>0.1444</td>
+<td>0.4245</td>
+<td>0.4504</td>
+<td>0.2430</td>
+<td>0.3613</td>
+<td>0.08758</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>11.42</td>
+<td>20.38</td>
+<td>77.58</td>
+<td>386.1</td>
+<td>0.14250</td>
+<td>0.28390</td>
+<td>0.2414</td>
+<td>0.10520</td>
+<td>0.2597</td>
+<td>0.09744</td>
+<td>...</td>
+<td>14.91</td>
+<td>26.50</td>
+<td>98.87</td>
+<td>567.7</td>
+<td>0.2098</td>
+<td>0.8663</td>
+<td>0.6869</td>
+<td>0.2575</td>
+<td>0.6638</td>
+<td>0.17300</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>20.29</td>
+<td>14.34</td>
+<td>135.10</td>
+<td>1297.0</td>
+<td>0.10030</td>
+<td>0.13280</td>
+<td>0.1980</td>
+<td>0.10430</td>
+<td>0.1809</td>
+<td>0.05883</td>
+<td>...</td>
+<td>22.54</td>
+<td>16.67</td>
+<td>152.20</td>
+<td>1575.0</td>
+<td>0.1374</td>
+<td>0.2050</td>
+<td>0.4000</td>
+<td>0.1625</td>
+<td>0.2364</td>
+<td>0.07678</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>12.45</td>
+<td>15.70</td>
+<td>82.57</td>
+<td>477.1</td>
+<td>0.12780</td>
+<td>0.17000</td>
+<td>0.1578</td>
+<td>0.08089</td>
+<td>0.2087</td>
+<td>0.07613</td>
+<td>...</td>
+<td>15.47</td>
+<td>23.75</td>
+<td>103.40</td>
+<td>741.6</td>
+<td>0.1791</td>
+<td>0.5249</td>
+<td>0.5355</td>
+<td>0.1741</td>
+<td>0.3985</td>
+<td>0.12440</td>
+</tr>
+</tbody>
+</table>
+
+<p>6 rows × 30 columns</p>
+</div>
+</div>
+</div>
+<div id="c1240084" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># output variable</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> cancer_df[<span class="st">'target'</span>] </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>y.head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>0    0.0
+1    0.0
+2    0.0
+3    0.0
+4    0.0
+5    0.0
+Name: target, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="split-dataset-into-train-and-test" class="level1">
+<h1>split dataset into train and test</h1>
+<div id="b1def5ad" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># split dataset into train and test</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size <span class="op">=</span> <span class="fl">0.2</span>, random_state<span class="op">=</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="ea2a2e16" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>X_train</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst radius</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">306</th>
+<td>13.200</td>
+<td>15.82</td>
+<td>84.07</td>
+<td>537.3</td>
+<td>0.08511</td>
+<td>0.05251</td>
+<td>0.001461</td>
+<td>0.003261</td>
+<td>0.1632</td>
+<td>0.05894</td>
+<td>...</td>
+<td>14.41</td>
+<td>20.45</td>
+<td>92.00</td>
+<td>636.9</td>
+<td>0.11280</td>
+<td>0.1346</td>
+<td>0.01120</td>
+<td>0.02500</td>
+<td>0.2651</td>
+<td>0.08385</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">410</th>
+<td>11.360</td>
+<td>17.57</td>
+<td>72.49</td>
+<td>399.8</td>
+<td>0.08858</td>
+<td>0.05313</td>
+<td>0.027830</td>
+<td>0.021000</td>
+<td>0.1601</td>
+<td>0.05913</td>
+<td>...</td>
+<td>13.05</td>
+<td>36.32</td>
+<td>85.07</td>
+<td>521.3</td>
+<td>0.14530</td>
+<td>0.1622</td>
+<td>0.18110</td>
+<td>0.08698</td>
+<td>0.2973</td>
+<td>0.07745</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">197</th>
+<td>18.080</td>
+<td>21.84</td>
+<td>117.40</td>
+<td>1024.0</td>
+<td>0.07371</td>
+<td>0.08642</td>
+<td>0.110300</td>
+<td>0.057780</td>
+<td>0.1770</td>
+<td>0.05340</td>
+<td>...</td>
+<td>19.76</td>
+<td>24.70</td>
+<td>129.10</td>
+<td>1228.0</td>
+<td>0.08822</td>
+<td>0.1963</td>
+<td>0.25350</td>
+<td>0.09181</td>
+<td>0.2369</td>
+<td>0.06558</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">376</th>
+<td>10.570</td>
+<td>20.22</td>
+<td>70.15</td>
+<td>338.3</td>
+<td>0.09073</td>
+<td>0.16600</td>
+<td>0.228000</td>
+<td>0.059410</td>
+<td>0.2188</td>
+<td>0.08450</td>
+<td>...</td>
+<td>10.85</td>
+<td>22.82</td>
+<td>76.51</td>
+<td>351.9</td>
+<td>0.11430</td>
+<td>0.3619</td>
+<td>0.60300</td>
+<td>0.14650</td>
+<td>0.2597</td>
+<td>0.12000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">244</th>
+<td>19.400</td>
+<td>23.50</td>
+<td>129.10</td>
+<td>1155.0</td>
+<td>0.10270</td>
+<td>0.15580</td>
+<td>0.204900</td>
+<td>0.088860</td>
+<td>0.1978</td>
+<td>0.06000</td>
+<td>...</td>
+<td>21.65</td>
+<td>30.53</td>
+<td>144.90</td>
+<td>1417.0</td>
+<td>0.14630</td>
+<td>0.2968</td>
+<td>0.34580</td>
+<td>0.15640</td>
+<td>0.2920</td>
+<td>0.07614</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>13.000</td>
+<td>21.82</td>
+<td>87.50</td>
+<td>519.8</td>
+<td>0.12730</td>
+<td>0.19320</td>
+<td>0.185900</td>
+<td>0.093530</td>
+<td>0.2350</td>
+<td>0.07389</td>
+<td>...</td>
+<td>15.49</td>
+<td>30.73</td>
+<td>106.20</td>
+<td>739.3</td>
+<td>0.17030</td>
+<td>0.5401</td>
+<td>0.53900</td>
+<td>0.20600</td>
+<td>0.4378</td>
+<td>0.10720</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">73</th>
+<td>13.800</td>
+<td>15.79</td>
+<td>90.43</td>
+<td>584.1</td>
+<td>0.10070</td>
+<td>0.12800</td>
+<td>0.077890</td>
+<td>0.050690</td>
+<td>0.1662</td>
+<td>0.06566</td>
+<td>...</td>
+<td>16.57</td>
+<td>20.86</td>
+<td>110.30</td>
+<td>812.4</td>
+<td>0.14110</td>
+<td>0.3542</td>
+<td>0.27790</td>
+<td>0.13830</td>
+<td>0.2589</td>
+<td>0.10300</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">400</th>
+<td>17.910</td>
+<td>21.02</td>
+<td>124.40</td>
+<td>994.0</td>
+<td>0.12300</td>
+<td>0.25760</td>
+<td>0.318900</td>
+<td>0.119800</td>
+<td>0.2113</td>
+<td>0.07115</td>
+<td>...</td>
+<td>20.80</td>
+<td>27.78</td>
+<td>149.60</td>
+<td>1304.0</td>
+<td>0.18730</td>
+<td>0.5917</td>
+<td>0.90340</td>
+<td>0.19640</td>
+<td>0.3245</td>
+<td>0.11980</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">118</th>
+<td>15.780</td>
+<td>22.91</td>
+<td>105.70</td>
+<td>782.6</td>
+<td>0.11550</td>
+<td>0.17520</td>
+<td>0.213300</td>
+<td>0.094790</td>
+<td>0.2096</td>
+<td>0.07331</td>
+<td>...</td>
+<td>20.19</td>
+<td>30.50</td>
+<td>130.30</td>
+<td>1272.0</td>
+<td>0.18550</td>
+<td>0.4925</td>
+<td>0.73560</td>
+<td>0.20340</td>
+<td>0.3274</td>
+<td>0.12520</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">206</th>
+<td>9.876</td>
+<td>17.27</td>
+<td>62.92</td>
+<td>295.4</td>
+<td>0.10890</td>
+<td>0.07232</td>
+<td>0.017560</td>
+<td>0.019520</td>
+<td>0.1934</td>
+<td>0.06285</td>
+<td>...</td>
+<td>10.42</td>
+<td>23.22</td>
+<td>67.08</td>
+<td>331.6</td>
+<td>0.14150</td>
+<td>0.1247</td>
+<td>0.06213</td>
+<td>0.05588</td>
+<td>0.2989</td>
+<td>0.07380</td>
+</tr>
+</tbody>
+</table>
+
+<p>455 rows × 30 columns</p>
+</div>
+</div>
+</div>
+<div id="f976b99c" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>X_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean radius</th>
+<th data-quarto-table-cell-role="th">mean texture</th>
+<th data-quarto-table-cell-role="th">mean perimeter</th>
+<th data-quarto-table-cell-role="th">mean area</th>
+<th data-quarto-table-cell-role="th">mean smoothness</th>
+<th data-quarto-table-cell-role="th">mean compactness</th>
+<th data-quarto-table-cell-role="th">mean concavity</th>
+<th data-quarto-table-cell-role="th">mean concave points</th>
+<th data-quarto-table-cell-role="th">mean symmetry</th>
+<th data-quarto-table-cell-role="th">mean fractal dimension</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">worst radius</th>
+<th data-quarto-table-cell-role="th">worst texture</th>
+<th data-quarto-table-cell-role="th">worst perimeter</th>
+<th data-quarto-table-cell-role="th">worst area</th>
+<th data-quarto-table-cell-role="th">worst smoothness</th>
+<th data-quarto-table-cell-role="th">worst compactness</th>
+<th data-quarto-table-cell-role="th">worst concavity</th>
+<th data-quarto-table-cell-role="th">worst concave points</th>
+<th data-quarto-table-cell-role="th">worst symmetry</th>
+<th data-quarto-table-cell-role="th">worst fractal dimension</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>15.30</td>
+<td>25.27</td>
+<td>102.40</td>
+<td>732.4</td>
+<td>0.10820</td>
+<td>0.16970</td>
+<td>0.16830</td>
+<td>0.08751</td>
+<td>0.1926</td>
+<td>0.06540</td>
+<td>...</td>
+<td>20.27</td>
+<td>36.71</td>
+<td>149.30</td>
+<td>1269.0</td>
+<td>0.1641</td>
+<td>0.61100</td>
+<td>0.63350</td>
+<td>0.20240</td>
+<td>0.4027</td>
+<td>0.09876</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">163</th>
+<td>12.34</td>
+<td>22.22</td>
+<td>79.85</td>
+<td>464.5</td>
+<td>0.10120</td>
+<td>0.10150</td>
+<td>0.05370</td>
+<td>0.02822</td>
+<td>0.1551</td>
+<td>0.06761</td>
+<td>...</td>
+<td>13.58</td>
+<td>28.68</td>
+<td>87.36</td>
+<td>553.0</td>
+<td>0.1452</td>
+<td>0.23380</td>
+<td>0.16880</td>
+<td>0.08194</td>
+<td>0.2268</td>
+<td>0.09082</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">123</th>
+<td>14.50</td>
+<td>10.89</td>
+<td>94.28</td>
+<td>640.7</td>
+<td>0.11010</td>
+<td>0.10990</td>
+<td>0.08842</td>
+<td>0.05778</td>
+<td>0.1856</td>
+<td>0.06402</td>
+<td>...</td>
+<td>15.70</td>
+<td>15.98</td>
+<td>102.80</td>
+<td>745.5</td>
+<td>0.1313</td>
+<td>0.17880</td>
+<td>0.25600</td>
+<td>0.12210</td>
+<td>0.2889</td>
+<td>0.08006</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">361</th>
+<td>13.30</td>
+<td>21.57</td>
+<td>85.24</td>
+<td>546.1</td>
+<td>0.08582</td>
+<td>0.06373</td>
+<td>0.03344</td>
+<td>0.02424</td>
+<td>0.1815</td>
+<td>0.05696</td>
+<td>...</td>
+<td>14.20</td>
+<td>29.20</td>
+<td>92.94</td>
+<td>621.2</td>
+<td>0.1140</td>
+<td>0.16670</td>
+<td>0.12120</td>
+<td>0.05614</td>
+<td>0.2637</td>
+<td>0.06658</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">549</th>
+<td>10.82</td>
+<td>24.21</td>
+<td>68.89</td>
+<td>361.6</td>
+<td>0.08192</td>
+<td>0.06602</td>
+<td>0.01548</td>
+<td>0.00816</td>
+<td>0.1976</td>
+<td>0.06328</td>
+<td>...</td>
+<td>13.03</td>
+<td>31.45</td>
+<td>83.90</td>
+<td>505.6</td>
+<td>0.1204</td>
+<td>0.16330</td>
+<td>0.06194</td>
+<td>0.03264</td>
+<td>0.3059</td>
+<td>0.07626</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">414</th>
+<td>15.13</td>
+<td>29.81</td>
+<td>96.71</td>
+<td>719.5</td>
+<td>0.08320</td>
+<td>0.04605</td>
+<td>0.04686</td>
+<td>0.02739</td>
+<td>0.1852</td>
+<td>0.05294</td>
+<td>...</td>
+<td>17.26</td>
+<td>36.91</td>
+<td>110.10</td>
+<td>931.4</td>
+<td>0.1148</td>
+<td>0.09866</td>
+<td>0.15470</td>
+<td>0.06575</td>
+<td>0.3233</td>
+<td>0.06165</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">515</th>
+<td>11.34</td>
+<td>18.61</td>
+<td>72.76</td>
+<td>391.2</td>
+<td>0.10490</td>
+<td>0.08499</td>
+<td>0.04302</td>
+<td>0.02594</td>
+<td>0.1927</td>
+<td>0.06211</td>
+<td>...</td>
+<td>12.47</td>
+<td>23.03</td>
+<td>79.15</td>
+<td>478.6</td>
+<td>0.1483</td>
+<td>0.15740</td>
+<td>0.16240</td>
+<td>0.08542</td>
+<td>0.3060</td>
+<td>0.06783</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">186</th>
+<td>18.31</td>
+<td>18.58</td>
+<td>118.60</td>
+<td>1041.0</td>
+<td>0.08588</td>
+<td>0.08468</td>
+<td>0.08169</td>
+<td>0.05814</td>
+<td>0.1621</td>
+<td>0.05425</td>
+<td>...</td>
+<td>21.31</td>
+<td>26.36</td>
+<td>139.20</td>
+<td>1410.0</td>
+<td>0.1234</td>
+<td>0.24450</td>
+<td>0.35380</td>
+<td>0.15710</td>
+<td>0.3206</td>
+<td>0.06938</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>11.42</td>
+<td>20.38</td>
+<td>77.58</td>
+<td>386.1</td>
+<td>0.14250</td>
+<td>0.28390</td>
+<td>0.24140</td>
+<td>0.10520</td>
+<td>0.2597</td>
+<td>0.09744</td>
+<td>...</td>
+<td>14.91</td>
+<td>26.50</td>
+<td>98.87</td>
+<td>567.7</td>
+<td>0.2098</td>
+<td>0.86630</td>
+<td>0.68690</td>
+<td>0.25750</td>
+<td>0.6638</td>
+<td>0.17300</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">261</th>
+<td>17.35</td>
+<td>23.06</td>
+<td>111.00</td>
+<td>933.1</td>
+<td>0.08662</td>
+<td>0.06290</td>
+<td>0.02891</td>
+<td>0.02837</td>
+<td>0.1564</td>
+<td>0.05307</td>
+<td>...</td>
+<td>19.85</td>
+<td>31.47</td>
+<td>128.20</td>
+<td>1218.0</td>
+<td>0.1240</td>
+<td>0.14860</td>
+<td>0.12110</td>
+<td>0.08235</td>
+<td>0.2452</td>
+<td>0.06515</td>
+</tr>
+</tbody>
+</table>
+
+<p>114 rows × 30 columns</p>
+</div>
+</div>
+</div>
+<div id="87b1995d" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>y_train</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>306    1.0
+410    1.0
+197    0.0
+376    1.0
+244    0.0
+      ... 
+8      0.0
+73     0.0
+400    0.0
+118    0.0
+206    1.0
+Name: target, Length: 455, dtype: float64</code></pre>
+</div>
+</div>
+<div id="f9ff9d65" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>y_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>28     0.0
+163    1.0
+123    1.0
+361    1.0
+549    1.0
+      ... 
+414    0.0
+515    1.0
+186    0.0
+3      0.0
+261    0.0
+Name: target, Length: 114, dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="feature-scaling" class="level1">
+<h1>Feature scaling</h1>
+<div id="1ae26135" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>sc <span class="op">=</span> StandardScaler()</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>X_train_sc <span class="op">=</span> sc.fit_transform(X_train)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>X_test_sc <span class="op">=</span> sc.transform(X_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="machine-learning-model-building" class="level1">
+<h1>Machine Learning Model Building</h1>
+<div id="c34bfcf8" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, classification_report, accuracy_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="suppor-vector-classifier" class="level2">
+<h2 class="anchored" data-anchor-id="suppor-vector-classifier">Suppor vector Classifier</h2>
+<div id="fcea7c9f" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Support vector classifier</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.svm <span class="im">import</span> SVC</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>svc_classifier <span class="op">=</span> SVC()</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>svc_classifier.fit(X_train, y_train)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>y_pred_scv <span class="op">=</span> svc_classifier.predict(X_test)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_scv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>0.9385964912280702</code></pre>
+</div>
+</div>
+<section id="train-with-standard-scaled-data" class="level5">
+<h5 class="anchored" data-anchor-id="train-with-standard-scaled-data">Train with Standard scaled Data</h5>
+<div id="d27b5039" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>svc_classifier2 <span class="op">=</span> SVC()</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>svc_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>y_pred_svc_sc <span class="op">=</span> svc_classifier2.predict(X_test_sc)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_svc_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>0.9649122807017544</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="logistic-regression" class="level1">
+<h1>Logistic Regression</h1>
+<div id="7d2ac21c" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logistic Regression</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>lr_classifier <span class="op">=</span> LogisticRegression(random_state <span class="op">=</span> <span class="dv">51</span>, C<span class="op">=</span><span class="dv">1</span>, penalty<span class="op">=</span><span class="st">'l1'</span>, solver<span class="op">=</span><span class="st">'liblinear'</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>lr_classifier.fit(X_train, y_train)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>y_pred_lr <span class="op">=</span> lr_classifier.predict(X_test)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_lr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>0.9649122807017544</code></pre>
+</div>
+</div>
+<section id="train-with-standard-scaled-data-1" class="level4">
+<h4 class="anchored" data-anchor-id="train-with-standard-scaled-data-1">Train with Standard scaled Data</h4>
+<div id="e00aad64" class="cell" data-execution_count="38">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>lr_classifier2 <span class="op">=</span> LogisticRegression(random_state <span class="op">=</span> <span class="dv">51</span>, C<span class="op">=</span><span class="dv">1</span>, penalty<span class="op">=</span><span class="st">'l1'</span>, solver<span class="op">=</span><span class="st">'liblinear'</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>lr_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>y_pred_lr_sc <span class="op">=</span> lr_classifier.predict(X_test_sc)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_lr_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>0.6052631578947368</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="naive-bayes-classifier" class="level1">
+<h1>Naive Bayes Classifier</h1>
+<div id="109443c7" class="cell" data-execution_count="39">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naive Bayes Classifier</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.naive_bayes <span class="im">import</span> GaussianNB</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>nb_classifier <span class="op">=</span> GaussianNB()</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>nb_classifier.fit(X_train, y_train)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>y_pred_nb <span class="op">=</span> nb_classifier.predict(X_test)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_nb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>0.9473684210526315</code></pre>
+</div>
+</div>
+<div id="f8cd6acf" class="cell" data-execution_count="40">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>nb_classifier2 <span class="op">=</span> GaussianNB()</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>nb_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>y_pred_nb_sc <span class="op">=</span> nb_classifier2.predict(X_test_sc)</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_nb_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
+<pre><code>0.9385964912280702</code></pre>
+</div>
+</div>
+</section>
+<section id="k-nearest-neighbor-classifier" class="level1">
+<h1>K – Nearest Neighbor Classifier</h1>
+<div id="eeecb7a2" class="cell" data-execution_count="41">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># K – Nearest Neighbor Classifier</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>knn_classifier <span class="op">=</span> KNeighborsClassifier(n_neighbors <span class="op">=</span> <span class="dv">5</span>, metric <span class="op">=</span> <span class="st">'minkowski'</span>, p <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>knn_classifier.fit(X_train, y_train)</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>y_pred_knn <span class="op">=</span> knn_classifier.predict(X_test)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_knn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>0.9385964912280702</code></pre>
+</div>
+</div>
+<div id="f8d5819b" class="cell" data-execution_count="42">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>knn_classifier2 <span class="op">=</span> KNeighborsClassifier(n_neighbors <span class="op">=</span> <span class="dv">5</span>, metric <span class="op">=</span> <span class="st">'minkowski'</span>, p <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>knn_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>y_pred_knn_sc <span class="op">=</span> knn_classifier.predict(X_test_sc)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_knn_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>0.5789473684210527</code></pre>
+</div>
+</div>
+</section>
+<section id="decision-tree-classifier" class="level1">
+<h1>Decision Tree Classifier</h1>
+<div id="c9c463f7" class="cell" data-execution_count="43">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Decision Tree Classifier</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>dt_classifier <span class="op">=</span> DecisionTreeClassifier(criterion <span class="op">=</span> <span class="st">'entropy'</span>, random_state <span class="op">=</span> <span class="dv">51</span>)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>dt_classifier.fit(X_train, y_train)</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>y_pred_dt <span class="op">=</span> dt_classifier.predict(X_test)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_dt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>0.9473684210526315</code></pre>
+</div>
+</div>
+<div id="6d5b148a" class="cell" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>dt_classifier2 <span class="op">=</span> DecisionTreeClassifier(criterion <span class="op">=</span> <span class="st">'entropy'</span>, random_state <span class="op">=</span> <span class="dv">51</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>dt_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>y_pred_dt_sc <span class="op">=</span> dt_classifier.predict(X_test_sc)</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_dt_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>0.7543859649122807</code></pre>
+</div>
+</div>
+<p># Random Forest Classifier</p>
+<div id="e7452164" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest Classifier</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>rf_classifier <span class="op">=</span> RandomForestClassifier(n_estimators <span class="op">=</span> <span class="dv">20</span>, criterion <span class="op">=</span> <span class="st">'entropy'</span>, random_state <span class="op">=</span> <span class="dv">51</span>)</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>rf_classifier.fit(X_train, y_train)</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>y_pred_rf <span class="op">=</span> rf_classifier.predict(X_test)</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_rf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<pre><code>0.9736842105263158</code></pre>
+</div>
+</div>
+<div id="f516e325" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>rf_classifier2 <span class="op">=</span> RandomForestClassifier(n_estimators <span class="op">=</span> <span class="dv">20</span>, criterion <span class="op">=</span> <span class="st">'entropy'</span>, random_state <span class="op">=</span> <span class="dv">51</span>)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>rf_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>y_pred_rf_sc <span class="op">=</span> rf_classifier.predict(X_test_sc)</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_rf_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
+<pre><code>0.7543859649122807</code></pre>
+</div>
+</div>
+</section>
+<section id="adaboost-classifier" class="level1">
+<h1>AdaBoost Classifier</h1>
+<div id="50d08d92" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaboost Classifier</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> AdaBoostClassifier</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>adb_classifier <span class="op">=</span> AdaBoostClassifier(DecisionTreeClassifier(criterion <span class="op">=</span> <span class="st">'entropy'</span>, random_state <span class="op">=</span> <span class="dv">200</span>),</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>                                    n_estimators<span class="op">=</span><span class="dv">2000</span>,</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>                                    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>                                    algorithm<span class="op">=</span><span class="st">'SAMME.R'</span>,</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>                                    random_state<span class="op">=</span><span class="dv">1</span>,)</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>adb_classifier.fit(X_train, y_train)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>y_pred_adb <span class="op">=</span> adb_classifier.predict(X_test)</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_adb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>0.9473684210526315</code></pre>
+</div>
+</div>
+<div id="bfddbee1" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train with Standard scaled Data</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>adb_classifier2 <span class="op">=</span> AdaBoostClassifier(DecisionTreeClassifier(criterion <span class="op">=</span> <span class="st">'entropy'</span>, random_state <span class="op">=</span> <span class="dv">200</span>),</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>                                    n_estimators<span class="op">=</span><span class="dv">2000</span>,</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>                                    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>                                    algorithm<span class="op">=</span><span class="st">'SAMME.R'</span>,</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>                                    random_state<span class="op">=</span><span class="dv">1</span>,)</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>adb_classifier2.fit(X_train_sc, y_train)</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>y_pred_adb_sc <span class="op">=</span> adb_classifier2.predict(X_test_sc)</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>accuracy_score(y_test, y_pred_adb_sc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>0.9473684210526315</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
