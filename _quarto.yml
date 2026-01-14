@@ -14,20 +14,30 @@ jobs:
       
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          # Optional: specify Quarto version
+          version: 1.4.0
       
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # You can change this to match your local Python version
+          python-version: '3.10'  # Try a newer version
           
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pandas numpy matplotlib seaborn scikit-learn jupyter nbconvert ipykernel
+      
+      - name: Check installed packages
+        run: pip list
       
       - name: Render Quarto
-        run: quarto render
-        
+        run: |
+          quarto check
+          quarto render --verbose
+        env:
+          QUARTO_PYTHON: python
+      
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
