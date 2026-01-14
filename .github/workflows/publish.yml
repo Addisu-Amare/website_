@@ -15,6 +15,15 @@ jobs:
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
       
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install pandas numpy matplotlib seaborn scikit-learn
+      
       - name: Render Quarto
         run: quarto render
         
