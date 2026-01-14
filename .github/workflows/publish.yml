@@ -22,7 +22,7 @@ jobs:
       
       - name: Install Python dependencies
         run: |
-          pip install pandas numpy matplotlib seaborn scikit-learn
+          pip install pandas numpy matplotlib seaborn scikit-learn jupyter pyyaml
       
       - name: Render Quarto
         run: quarto render
