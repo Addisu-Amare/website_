@@ -135,26 +135,11 @@ plt.figure(figsize = (20,8))
 sns.countplot(cancer_df['mean radius']) # *** img 7 ****
 ```
 
-# Heatmap
-
-```{python}
-# heatmap of DataFrame
-plt.figure(figsize=(16,9))
-sns.heatmap(cancer_df) # **** img 8 ****
-```
-
 ##  Heatmap of a correlation matrix 
 
 ```{python}
 #| scrolled: true
 cancer_df.corr()#gives the correlation between them
-```
-
-```{python}
-#| scrolled: false
-# Heatmap of Correlation matrix of breast cancer DataFrame
-plt.figure(figsize=(20,20))
-sns.heatmap(cancer_df.corr(), annot = True, cmap ='coolwarm', linewidths=2) # *** img 9 ***
 ```
 
 # Correlation Barplot
@@ -168,13 +153,6 @@ print("The shape of 'cancer_df2' is : ", cancer_df2.shape)
 ```{python}
 #| scrolled: true
 #cancer_df2.corrwith(cancer_df.target)
-```
-
-```{python}
-# visualize correlation barplot
-plt.figure(figsize = (16,5))
-ax = sns.barplot(cancer_df2.corrwith(cancer_df.target).index, cancer_df2.corrwith(cancer_df.target))
-ax.tick_params(labelrotation = 90) # **** img 10 ***
 ```
 
 ```{python}
