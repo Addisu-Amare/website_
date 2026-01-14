@@ -1,4 +1,4 @@
-// grouped tabsets
+// group tabsets
 
 export function init() {
   window.addEventListener("pageshow", (_event) => {
