@@ -18,7 +18,6 @@ This project focuses on [briefly describe the project, its goals, and significan
 
 - Objective 1: [Describe the first objective]
 - Objective 2: [Describe the second objective]
-- Objective 3: [Describe the third objective]
 
 ## Methodology
 
