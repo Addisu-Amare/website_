@@ -25,6 +25,8 @@ website:
         href: project.qmd
       - text: My Hobbies
         href: Hobbies.qmd
+      -file: document_/under_graduate_work.pdf
+        text : Thesis
 
     right:
       - icon: github
