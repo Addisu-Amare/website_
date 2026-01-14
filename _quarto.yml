@@ -25,6 +25,8 @@ website:
         href: project.qmd
       - text: My Hobbies
         href: Hobbies.qmd
+      - text: Cancer classification
+        href: Jupyter_note_book.qmd
       - text: Thesis
         href: document_/under_graduate_work.pdf
       
