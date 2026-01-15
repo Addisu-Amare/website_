@@ -1,1 +1,16 @@
 
+---
+title: "Article"
+format: html
+---
+# List of Articles
+## 1. Medical Imaging AI
+[Download PDF](https://github.com/Addisu-Amare/website_/blob/main/document_/Article_AI.pdf)
+## 2. Federated learning and XAI in medical imaging  
+ [Download PDF](https://github.com/Addisu-Amare/website_/blob/main/document_/Article_FL.pdf)
+## 3. undergraduate work
+ [Download PDF](https://github.com/Addisu-Amare/website_/blob/main/document_/under_graduate_work.pdf)
+## 4. Fire detection project
+ [Download PDF](https://github.com/Addisu-Amare/website_/blob/main/document_/fire_detection.pdf)
+## How to View
+- download the original PDF files
