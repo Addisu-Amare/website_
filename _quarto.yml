@@ -13,14 +13,10 @@ website:
         href: index.qmd
       - text: Scholarship
         href: research.qmd
-      - text: Teaching
-        href: teaching.qmd
-      - text: Publications
-        href: publications.qmd
-      - text: Talks & Workshops
-        href: talks.qmd
       - text: Blog
         href: blog.qmd
+      - text: Article
+        href: documents.qmd
       - text: projects
         href: project.qmd
       - text: My Hobbies
