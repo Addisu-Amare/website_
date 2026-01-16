@@ -1,6 +1,6 @@
 ---
 title: "Introduction: The AI Revolution in Healthcare"
-author: "AI Medical Research Team"
+author: "Addisu Amare Zena"
 date: "2024-01-15"
 image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80"
 description: "Understanding the transformative impact of AI in medical imaging"
