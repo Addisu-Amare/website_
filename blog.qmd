@@ -1,137 +1,82 @@
-```yaml
 ---
-title: "Physiological Parameter Monitoring System using Arduino Nano, OLED and Node MCU"
-author: "Addisu Amare"
-date: "May 2022"
-format: html
+title: "Introduction: The AI Revolution in Healthcare"
+author: "AI Medical Research Team"
+date: "2024-01-15"
+image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80"
+description: "Understanding the transformative impact of AI in medical imaging"
 ---
-# Abstract
-The development of portable non-invasive health monitoring systems is very important to improving both personal and preventive health care through telemedicine. This work describes research and development as well as validation of an innovative integrated device designed to allow individuals to obtain four critical physiological readings (heart rate (HR), blood oxygen saturation (SpO₂), glucose level, and body temperature) using only their fingertips with no invasion whatsoever. The system is built using multiple types of sensors such as the MAX30100 pulse oximeter for measuring HR and SpO₂ and the MLX90614 infrared sensor for measuring body temperature. For obtaining glucose level estimates, we created a new custom near-infrared (NIR) optical module. The embedded core of our system consists of an Arduino microcontroller and a NodeMCU (ESP8266) which perform all the required operations of the system including real-time signal acquisition, filtering, sensor fusion, and data processing of the measured data. Upon processing, the system sends the processed data wirelessly via Wi-Fi to a special application running on an Android device allowing for quick access to the user's health data, tracking of health data over time, and providing users with the ability to store, manage, and review their health data. Experimental data from our prototype indicates that it successfully measures real-time data and provides accurate measurements of HR, SPO₂, and body temperature as well as a promising correlation between the use of NIR technology and estimating trends in glucose level. Overall, we successfully built a low-cost and user-friendly prototype that provides a comprehensive non-invasive method for users to monitor multiple physiologic parameters and represents an important advance towards developing comprehensive point-of-care diagnostics in the future.
 
-# 1. Introduction
-The main objective of this project is to design and demonstrate a non-invasive multi-physiological parameter monitoring system by using an IR sensor, pulse oximetry sensor, and IR temperature sensor. The motivation for this work arises from the crowding of hospitals during the COVID-19 pandemic, where remote monitoring of heart rate and oxygen levels is critical for patient care. Fever is often the body's first reaction to infection, making non-contact temperature measurement a vital tool for early disease detection. Furthermore, traditional glucose monitoring is often painful and invasive; this project proposes a non-invasive method to relieve patient discomfort.
+```{=html}
+<div class="hero-banner" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80'); background-size: cover; height: 300px; margin: -1em -1em 2em -1em; display: flex; align-items: center; justify-content: center;">
+  <h1 style="color: white; text-align: center;">The AI Revolution in Healthcare</h1>
+</div>
+# The Future of Medical Imaging
+Medical imaging is evolving. Artificial intelligence is no longer a simple tool; in fact, it has become part and parcel of diagnostic workflows. There is a growing need for intelligent processing of medical images, which represent approximately 90% of all healthcare data.
 
-# 2. Project Description and Goals
-This project focuses on a portable, cost-effective system for monitoring diabetic patients, with a specific emphasis on non-invasive blood glucose prediction. The system utilizes Near Infrared (NIR) light to irradiate the fingertip, measuring how glucose levels modulate light transmission. 
+# The Problem
+Radiologists: Are experiencing a 30-40% increase in workload each year
 
-The primary goals include:
-*   Designing a low-cost, multi-parameter device.
-*   Implementing reflectance sensing for heart rate and oxygen saturation (SpO2%) to enable wrist-wearability.
-*   Investigating NIR light for blood glucose prediction.
-*   Integrating local OLED display and wireless transmission via the Blynk IoT platform.
+Imaging technology: High-resolution, 3D and 4D images are becoming more common
 
-# 3. Technical Specifications
-The system incorporates several hardware components:
-*   **Microcontrollers:** Esp8266 Node MCU and Arduino Nano.
-*   **Sensors:** MAX30100 Pulse Oximeter, MLX90614 IR Temperature Sensor, APDS-9960 Proximity Sensor, and a Photoelectric IR Sensor.
-*   **Display:** 0.96-inch SSD1306 OLED with 128×64 pixels.
-*   **Software:** Blynk mobile app, Arduino IDE, and Excel.
+Diagnostic Accuracy: Error rates due to human interpretation can be as high as 30% in some instances
 
-# 4. Methodology
-The device utilizes both reflectance and transmissive methodologies. In the reflectance approach, LEDs and photodiodes are placed side-by-side on the skin; light is absorbed by the blood and reflected back to the sensor to measure SpO2 and BPM. For glucose monitoring, a polynomial regression equation was derived from a study of 24 individuals to relate analog voltage ($x$) to glucose level ($y$): $y = (8 \times 10^{-5})x^2 + 0.1873x + 46.131$.
+# How AI solves these problems
+Two significant advances have been made with respect to using AI in medical imaging - Convolutional Neural Networks (CNN) have become the standard when it comes to the majority of medical imaging techniques and algorithms.
 
-# 5. Results and Discussion
-Tests conducted on six students showed glucose measurements ranging from 100 mg/L to 120 mg/L after lunch, all falling within normal medical ranges. The system successfully displayed real-time data on the OLED and transmitted values to the Blynk app. 
+<div class="stats-grid">
+<div class="stat-card">
+<h3>🎯 90%</h3>
+<p>Healthcare data is medical images</p>
+</div>
+<div class="stat-card">
+<h3>⏱️ 70%</h3>
+<p>Reduction in screening time</p>
+</div>
+<div class="stat-card">
+<h3>💰 $4.5B</h3>
+<p>Market size by 2028</p>
+</div>
+<div class="stat-card">
+<h3>📈 34%</h3>
+<p>Annual growth rate</p>
+</div>
+</div>
 
-### Cost Analysis
-The total cost of the prototype was calculated at 2115 rupees. A cost comparison revealed that while the custom-built pulse oximeter component (580 rupees) is significantly cheaper than commercial versions (over 3000 rupees), the IR temperature monitoring component (1237 rupees) was more expensive than some commercial "temperature guns" found on the market.
-
-# 6. Summary
-This work presents a non-invasive system to predict blood glucose, body temperature, blood oxygen, and pulse rate. Utilizing Arduino and Node MCU with NIR technology, the device offers a quick, easy, and cost-effective method for health monitoring that avoids the pain of invasive testing.
-
-# 7. Appendices: System Code
-
-## Appendix A: Glucose Monitoring
-```cpp
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-Adafruit_SSD1306 display(-1);
-const int parameter = A0;
-int ir1=0, ir2=0, vout=0, xout=0, yout=0, zout=0;
-
-void setup() {
-  Serial.begin(9600);
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+<style>
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 2em 0;
 }
-
-void loop() {
-  int ir1state = analogRead(parameter);
-  float ir2state = (8*pow(10,-5))*pow(ir1state,2);
-  xout = 0.1873 * ir1state;
-  yout = ir2state + xout + 46.131;
-  zout = yout; 
-  Serial.println(zout);
-  display.clearDisplay();
-  display.setCursor(0,0);
-  display.print("GLUCOSE: ");
-  display.print(zout);
-  display.display();
-  delay(1000);
+.stat-card {
+  background: white;
+  padding: 1.5em;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  border-top: 4px solid #007bff;
 }
-```
-*(Code synthesized from source passages)*
-
-## Appendix B: Temperature Monitoring
-```cpp
-#include <Wire.h>
-#include <SparkFun_APDS9960.h>
-#include <Adafruit_MLX90614.h>
-#include <Adafruit_SSD1306.h>
-#define OLED_RESET 4
-Adafruit_SSD1306 display(OLED_RESET);
-SparkFun_APDS9960 apds = SparkFun_APDS9960();
-Adafruit_MLX90614 mlx = Adafruit_MLX90614();
-
-void setup() {
-  mlx.begin();
-  apds.init();
-  apds.enableProximitySensor(false);
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+.stat-card h3 {
+  margin: 0;
+  font-size: 2em;
+  color: #007bff;
 }
+</style>
+### What You'll Learn in This Series
+-This comprehensive series explores:
 
-void loop() {
-  uint8_t proximity_data = 0;
-  apds.readProximity(proximity_data);
-  if (proximity_data == 255) {
-    display.clearDisplay();
-    display.print("Temp: ");
-    display.print(mlx.readObjectTempF());
-    display.display();
-  } else {
-    display.clearDisplay();
-    display.print("NOT DETECTED");
-    display.display();
-  }
-  delay(1000);
-}
-```
-*(Code synthesized from source passages)*
+-CNN applications across various medical specialties
 
-## Appendix C: Pulse Oximetry
-```cpp
-#include <Wire.h>
-#include "MAX30100_PulseOximeter.h"
-#include <BlynkSimpleEsp8266.h>
-#include "OakOLED.h"
-#define REPORTING_PERIOD_MS 1000
-PulseOximeter pox;
-uint32_t tsLastReport = 0;
+ViT breakthroughs in complex imaging tasks
 
-void onBeatDetected() { Serial.println("Beat!"); }
+Real-world implementations and case studies
 
-void setup() {
-  Serial.begin(115200);
-  pox.begin();
-  pox.setOnBeatDetectedCallback(onBeatDetected);
-}
+Performance comparisons and benchmarks
 
-void loop() {
-  pox.update();
-  if (millis() - tsLastReport > REPORTING_PERIOD_MS) {
-    Serial.print("BPM: "); Serial.println(pox.getHeartRate());
-    tsLastReport = millis();
-  }
-}
+Future trends and ethical considerations
 
+Navigation Guide
+Next: CNN Overview
+
+Or jump to: Cancer Detection | Neurology | Ophthalmology
