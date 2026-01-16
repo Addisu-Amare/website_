@@ -1,0 +1,14 @@
+## My Hobbies at a Glance
+
+| Hobby | Category | Frequency | Equipment Needed |
+|-------|----------|-----------|------------------|
+| Cooking | Creative | Daily | Kitchen utensils, ingredients |
+| Reading Novels | Intellectual | Daily | Books/e-reader |
+| Football | Outdoor Sport | Weekly | Cleats, ball, sports gear |
+| Volleyball | Team Sport | Bi-weekly | Knee pads, athletic shoes |
+
+### Why These Hobbies?
+1. Cooking - Creative expression and practical life skill
+2. Reading - Mental escape and knowledge expansion  
+3. Football - Physical fitness and teamwork
+4. Volleyball - Social interaction and coordination
