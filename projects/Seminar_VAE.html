@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>seminar_vae – Addisu Amare</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1db3f541d99483cdc7a0d9cf38862b2c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Addisu Amare</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research.html"> 
+<span class="menu-text">Scholarship</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../documents.html"> 
+<span class="menu-text">Article</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../project.html"> 
+<span class="menu-text">projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Hobbies.html"> 
+<span class="menu-text">My Hobbies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Jupyter_note_book.html"> 
+<span class="menu-text">Cancer classification</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Addisu-Amare"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<p>#Variational Autoencoders</p>
+<p>Author: Addisu Amare</p>
+<div id="3c38ff02" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> optim</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.utils.data <span class="im">as</span> data</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Tuple</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c06054b0" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> torch.cuda.is_available()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>DEVICE <span class="op">=</span> <span class="st">'cuda'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>USE_CUDA <span class="op">=</span> <span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="variational-inference" class="level2">
+<h2 class="anchored" data-anchor-id="variational-inference">1. Variational inference</h2>
+<section id="problem-statement" class="level4">
+<h4 class="anchored" data-anchor-id="problem-statement">1.1 Problem statement</h4>
+<p><span class="math inline">\(\textbf{Data}\)</span>: $X = {x_{1},…,x_{n}} $ are independent samples <span class="math inline">\(D\)</span>-dimensional samples <span class="math inline">\(\textbf{Task}\)</span>: We solve the task of generative modeling <span class="math inline">\(p(X|\Theta)\)</span>, where <span class="math inline">\(\Theta\)</span> are parameters of the model.</p>
+<p>While we use this model, one can set optimization problem like <span class="math inline">\(\textbf{MLE-problem}\)</span>:</p>
+<p><span class="math display">\[ \Theta^{*} = \arg \max_{\Theta}  p(X|\Theta)\]</span></p>
+<p>However, one can consider our model like model with <span class="math inline">\(d\)</span>-dimensional latent (hidden) variables <span class="math inline">\(Z\)</span>. Thus, having assumed existence of latent codes of our model, we can represent of likelihood as follows:</p>
+<p><span class="math display">\[ p(X|\Theta)  = p(X|Z,\Theta) p(Z|\Theta) \]</span></p>
+<p><img src="https://i.pinimg.com/originals/d2/c0/c9/d2c0c9e9c4c5b2e436815f773c47d5e5.jpg" width="600" height="100"></p>
+<p><span class="math inline">\(\textbf{Importantly}\)</span>, we do this step because we sure, that introduced models might be easily parameterized. For example, like normal distributions:</p>
+<ul>
+<li><p><span class="math inline">\(p(X|Z,\Theta) = \mathcal{N}(X| \mu(Z,\Theta), \Sigma^{-1}(Z, \Theta))\)</span></p></li>
+<li><p><span class="math inline">\(p(Z|\Theta) = \mathcal{N}(Z| \mu(\Theta), \Sigma^{-1}(\Theta))\)</span></p></li>
+</ul>
+<p>Then, our <span class="math inline">\(\textbf{MLE}\)</span>-problem is the following:</p>
+<p><span class="math display">\[ \Theta^{*} = \arg\max_{\Theta}\prod_{i=1}^{n} p(x_{i}|\Theta)=  \arg\max_{\Theta}\prod_{i=1}^{n} \int_{\mathbb{R}^{d}} p(x_{i}|Z, \Theta)p(Z|\Theta)dZ \]</span></p>
+</section>
+<section id="naive-approach" class="level4">
+<h4 class="anchored" data-anchor-id="naive-approach">1.2 Naive approach</h4>
+<p>Undoubtedly, this problem might be solved through Monte-Carlo simulation:</p>
+<p><span class="math display">\[ \int p(x_{i}|Z,\Theta)p(Z|\Theta) dZ = \mathbb{E}_{\hat{Z} \sim p(Z|\Theta)} p(x_{i}|\hat{Z},\Theta) = \frac{1}{K}\sum_{k=1}^{K} p(x_{i}|\hat{Z}_{k},\Theta) \]</span></p>
+<p><img src="https://github.com/r-isachenko/2022-2023-DGM-MIPT-course/blob/main/seminars/seminar3/pics/lvm_diagram.png?raw=true"></p>
+<p><span class="math inline">\(\textbf{Challenge}\)</span>: The curse of dimensionality. Namely, we cannot properly cover whole space of <span class="math inline">\(p(Z|\Theta)\)</span> due to high dimension of the latent code. One can avoid this problem with sampleing more samples, however this amount will grow with increasing of dimensionality of latent code. Thus, to cover the space properly., the number of samples grows exponentially with respect to dimensionality of <span class="math inline">\(Z\)</span>. Finally, we cannot make accurate estimation for the integral.</p>
+<p><span class="math inline">\(\textbf{Another explanation}\)</span> …</p>
+</section>
+<section id="em-algorithm" class="level4">
+<h4 class="anchored" data-anchor-id="em-algorithm">1.3 EM-algorithm</h4>
+<p>Since:</p>
+<p><span class="math display">\[ p(x_{i}|\Theta) = \int_{\mathbb{R}^{d}}p(x_{i}|Z,\Theta)p(Z|\Theta)dZ \]</span></p>
+<p>Then, we can consider this problem like problem for <span class="math inline">\(\textbf{EM}\)</span>-algorithm. As far as we know^ <span class="math inline">\(\textbf{E}\)</span>-step might be solved by two ways:</p>
+<ul>
+<li>Accurate Bayesian inference</li>
+<li>Mean-field approximation</li>
+</ul>
+<p>In <span class="math inline">\(\textbf{E}\)</span>-step, we have the following tractable integral that we cannot calculate and as a consequence of that we cannot perform Accurate Bayesian inference.</p>
+<p><span class="math display">\[ q(Z|x_{i},\Theta) = \frac{p(x_{i}|Z,\Theta) p(Z|\Theta)}{\int_{\mathbb{R}^{d}}p(x_{i}|Z,\Theta) p(Z|\Theta)dZ}\]</span></p>
+<p>Mean-field is sufficnetly difficult for high dimensional latent codes.</p>
+</section>
+<section id="variational-inference-1" class="level4">
+<h4 class="anchored" data-anchor-id="variational-inference-1">1.4 Variational Inference</h4>
+<p>Then, we move on the Variational Inference:</p>
+<p><span class="math display">\[ \sum_{i=1}^{n} \log p(x_{i}|\Theta) = \sum_{i=1}^{n} \log p(x_{i}|\Theta) \int_{\mathbb{R}^{d}}q(Z)dZ =  
+\sum_{i=1}^{n} \int_{\mathbb{R}^{d}}  \log p(x_{i}|\Theta) q(Z)dZ\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{n} \int_{\mathbb{R}^{d}}  \log p(x_{i}|\Theta) q(Z)dZ  =  \sum_{i=1}^{n} \int_{\mathbb{R}^{d}} q(Z)\log\frac{p(x_{i},Z|\Theta)q(Z)}{p(Z|\Theta,x_{i})q(Z)}dZ = \]</span></p>
+<p><span class="math display">\[ = \sum_{i=1}^{n} \int q(Z)\log\frac{p(x_{i},Z|\Theta)}{q(Z)}dZ + \sum_{i=1}^{n}\int q(Z)\log \frac{q(Z)}{p(Z|x_{i},\Theta)}dZ\]</span></p>
+<p>The last term is <span class="math inline">\(\textbf{KL}\)</span>-divergence between our prior knowledge and observed posterior distribution. The main properties of this disctance are:</p>
+<ul>
+<li><span class="math inline">\(KL \geq 0\)</span></li>
+<li><span class="math inline">\(KL( \mathbb{P}|| \mathbb{Q}) = 0\)</span> , if <span class="math inline">\(\mathbb{P}=\mathbb{Q}\)</span></li>
+</ul>
+<p>Finally, we get <span class="math inline">\(\textbf{ELBO}\)</span>:</p>
+<p><span class="math display">\[ \sum_{i=1}^{n} \log p(x_{i}|\Theta) \geq \sum_{i=1}^{n} \int q(Z)\log\frac{p(x_{i},Z|\Theta)}{q(Z)}dZ\]</span></p>
+<p>It is worth noticing, that <span class="math inline">\(\textbf{ELBO}\)</span> has the same formula for optimization like for VAE. We will held maximization for parameters <span class="math inline">\(\Theta\)</span> and latent distribution <span class="math inline">\(q(Z)\)</span> like in EM-algorithm. Nonetheless, the main distinguish is that likelihood and prior will be constrained by normal distribution during the <span class="math inline">\(\textbf{E}\)</span>-step.</p>
+<p>Thus, we have two models:</p>
+<ul>
+<li><span class="math inline">\(p(x_{i},Z|\Theta)\)</span> is normal distribution parametrized by NN with parameters <span class="math inline">\(\Theta\)</span>.</li>
+<li><span class="math inline">\(q(Z|x_{i},\phi)\)</span> is normal distribution parameterized by NN with parameters <span class="math inline">\(\phi\)</span>.</li>
+</ul>
+<p>Undoubtedly, we make more constraints , than we had with acurrate and mean-field solution of EM.</p>
+<p><span class="math inline">\(\textbf{Our problem with Variational inference}\)</span>:</p>
+<p><span class="math display">\[ \sum_{i=1}^{n} \int_{\mathbb{R}^{d}} q(Z|x_{i},\phi) \log\frac{p(x_{i},Z|\Theta)}{q(Z|x_{i},\phi)}dZ \to \max_{\Theta,\phi}\]</span></p>
+</section>
+</section>
+<section id="variational-auto-encoders-vae" class="level2">
+<h2 class="anchored" data-anchor-id="variational-auto-encoders-vae">2. Variational Auto Encoders (VAE)</h2>
+<p>Now, we make assumption about <span class="math inline">\(\textbf{non-linear}\)</span> dependence between <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span>. Then:</p>
+<section id="like-m-step" class="level4">
+<h4 class="anchored" data-anchor-id="like-m-step">2.1 like M-step:</h4>
+<p>our task is maximization during M-step:</p>
+<p><span class="math display">\[\sum_{i=1}^{n} \mathbb{E}_{q(Z|x_{i},\phi)} \log p(x_{i},Z|\Theta) \to \max_{\Theta} \]</span></p>
+<p>Then, to calculate this, we need in:</p>
+<ul>
+<li>model <span class="math inline">\(q(Z|x_{i},\phi)\)</span> should give us samples</li>
+<li>logarithm of $ p(x_{i},Z|)$</li>
+</ul>
+<p>Then we introduce model $ p(x_{i},Z|)$ as:</p>
+<p><span class="math display">\[ p(x_{i},Z|\Theta) = \mathcal{N}(x_{i}| \mu(z_{i},\Theta) , \sigma^{2}(z_{i},\Theta)I)*\mathcal{N}(z_{i}|0,I) \]</span> <span class="math display">\[p(x_{i},Z|\Theta) = \prod_{j=1}^{D}\mathcal{N}(x_{ij}| \mu_{j}(z_{i},\Theta) , \sigma_{j}^{2}(z_{i},\Theta))*\mathcal{N}(z_{i}|0,I) \]</span></p>
+<p>Thus, the first multiplier is the <span class="math inline">\(\textbf{decoder}\)</span> :</p>
+<ul>
+<li>takes <span class="math inline">\(d\)</span>-dimensional latent code</li>
+<li>outputs 2<span class="math inline">\(D\)</span>-dimensional vector, where the <span class="math inline">\(D\)</span>-first are means for the corresponding pixel of image, while the second are variances.</li>
+</ul>
+<p>Also, we introduce the following model with ability of sampling latent codes from data sample.</p>
+<p><span class="math display">\[ q(z|x_{i},\phi) = \prod_{j=1}^{d} \mathcal{N}(z_{j}|m_{j}(x_{i},\phi),s_{j}^{2}(x_{i},\phi))\]</span></p>
+<p>This model is the <span class="math inline">\(\textbf{encoder}\)</span></p>
+<ul>
+<li>takes <span class="math inline">\(D\)</span>-dimensional sample from data</li>
+<li>outputs 2<span class="math inline">\(d\)</span>-dimensional vector, where the <span class="math inline">\(d\)</span>-first are means for the corresponding latent code, while the second are variances.</li>
+</ul>
+<p>It is worth noticing, that the posterior distribution <span class="math inline">\(q(z|x_{i},\phi)\)</span>. is multiplication of 1-dimensional normal distributions.</p>
+</section>
+<section id="like-e-step" class="level4">
+<h4 class="anchored" data-anchor-id="like-e-step">2.2 like E-step:</h4>
+<p>During the <span class="math inline">\(\textbf{E}\)</span>-step, we maximize by parameters of encoder:</p>
+<p>However, we know, that the maximization of ELBO corresponds to the minimization of <span class="math inline">\(\textbf{KL}\)</span>-divergence between prior and current posterior (encoder):</p>
+<p><span class="math display">\[ KL(q(z_{i}|x_{i},\phi) || p(z)) \to \min_{\phi}\]</span></p>
+<p>Yet another reason for choosing normal distribution for <span class="math inline">\(q(z_{i}|x_{i},\phi)\)</span> is the existence closed form of KL-divergence between gaussian distributions. Thta is why, we pick prior knowledge <span class="math inline">\(p(z)\)</span> as gaussian too.</p>
+<p><img src="https://www.compthree.com/images/blog/ae/vae.png" width="600" height="500/"></p>
+</section>
+</section>
+<section id="vae-on-2d-data" class="level2">
+<h2 class="anchored" data-anchor-id="vae-on-2d-data">3. VAE on 2d data</h2>
+<p>In this task we will implement simple VAE model for 2d gaussian distribution <span class="math inline">\(\mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})\)</span>.</p>
+<p>We will consider two cases: * 2d univariate distribution (diagonal covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span>); * 2d multivariate distribution (strictly non-diagonal covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span>).</p>
+<p>The goal is to analyze the difference between these two cases and understand why the trained VAE models will behave differently.</p>
+<section id="data-generation" class="level3">
+<h3 class="anchored" data-anchor-id="data-generation">3.1 Data generation</h3>
+<div id="b3e01d72" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>TICKS_FONT_SIZE <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>LEGEND_FONT_SIZE <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>LABEL_FONT_SIZE <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>TITLE_FONT_SIZE <span class="op">=</span> <span class="dv">16</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="10541717" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_2d_data(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    train_data,test_data,train_labels<span class="op">=</span><span class="va">None</span> ,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    test_labels<span class="op">=</span><span class="va">None</span> ):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    ax1.set_title(<span class="st">"train"</span>, fontsize<span class="op">=</span>TITLE_FONT_SIZE)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ax1.scatter(train_data[:, <span class="dv">0</span>], train_data[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">1</span>, c<span class="op">=</span>train_labels)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    ax1.tick_params(labelsize<span class="op">=</span>LABEL_FONT_SIZE)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    ax2.set_title(<span class="st">"test"</span>, fontsize<span class="op">=</span>TITLE_FONT_SIZE)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    ax2.scatter(test_data[:, <span class="dv">0</span>], test_data[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">1</span>, c<span class="op">=</span>test_labels)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ax2.tick_params(labelsize<span class="op">=</span>LABEL_FONT_SIZE)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="5ebe9794" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> visualize_2d_samples(data, title, labels<span class="op">=</span><span class="va">None</span>, xlabel<span class="op">=</span><span class="va">None</span>, ylabel<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    plt.scatter(data[:, <span class="dv">0</span>], data[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">1</span>, c<span class="op">=</span>labels)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    plt.title(title, fontsize<span class="op">=</span>TITLE_FONT_SIZE)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    plt.xticks(fontsize<span class="op">=</span>TICKS_FONT_SIZE)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    plt.yticks(fontsize<span class="op">=</span>TICKS_FONT_SIZE)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> xlabel <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        plt.xlabel(xlabel, fontsize<span class="op">=</span>LABEL_FONT_SIZE)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ylabel <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        plt.ylabel(ylabel, fontsize<span class="op">=</span>LABEL_FONT_SIZE)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="e682f04b" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_2d_data(count, mode<span class="op">=</span><span class="st">'univariate'</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> mode <span class="kw">in</span> [<span class="st">'univariate'</span>, <span class="st">'multivariate'</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> [[<span class="fl">2.0</span>, <span class="fl">3.0</span>]]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> [[<span class="fl">3.0</span>, <span class="fl">1.0</span>]]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mode <span class="op">==</span> <span class="st">'univariate'</span>:</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        rotate <span class="op">=</span> [</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">1.0</span>, <span class="fl">0.0</span>],</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            [<span class="fl">0.0</span>, <span class="fl">1.0</span>]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        rotate <span class="op">=</span> [</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            [np.sqrt(<span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span>, np.sqrt(<span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span>],</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>            [<span class="op">-</span>np.sqrt(<span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span>, np.sqrt(<span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span>]</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> mean <span class="op">+</span> (np.random.randn(count, <span class="dv">2</span>) <span class="op">*</span> sigma).dot(rotate)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> data.astype(<span class="st">'float32'</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    split <span class="op">=</span> <span class="bu">int</span>(<span class="fl">0.7</span> <span class="op">*</span> count)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    train_data, test_data <span class="op">=</span> data[:split], data[split:]</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_data, test_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="bee76644" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_training_curves(train_losses, test_losses, logscale_y<span class="op">=</span><span class="va">False</span>, logscale_x<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    n_train <span class="op">=</span> <span class="bu">len</span>(train_losses[<span class="bu">list</span>(train_losses.keys())[<span class="dv">0</span>]])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    n_test <span class="op">=</span> <span class="bu">len</span>(test_losses[<span class="bu">list</span>(train_losses.keys())[<span class="dv">0</span>]])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    x_train <span class="op">=</span> np.linspace(<span class="dv">0</span>, n_test <span class="op">-</span> <span class="dv">1</span>, n_train)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    x_test <span class="op">=</span> np.arange(n_test)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    plt.figure()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> train_losses.items():</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        plt.plot(x_train, value, label<span class="op">=</span>key <span class="op">+</span> <span class="st">'_train'</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> test_losses.items():</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        plt.plot(x_test, value, label<span class="op">=</span>key <span class="op">+</span> <span class="st">'_test'</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> logscale_y:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        plt.semilogy()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> logscale_x:</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        plt.semilogx()</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    plt.legend(fontsize<span class="op">=</span>LEGEND_FONT_SIZE)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Epoch'</span>, fontsize<span class="op">=</span>LABEL_FONT_SIZE)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Loss'</span>, fontsize<span class="op">=</span>LABEL_FONT_SIZE)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    plt.xticks(fontsize<span class="op">=</span>TICKS_FONT_SIZE)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    plt.yticks(fontsize<span class="op">=</span>TICKS_FONT_SIZE)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    plt.grid()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="ea9b2248" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:933}}" data-outputid="a9d16b01-269a-4c34-db07-82455f5682b6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>COUNT <span class="op">=</span> <span class="dv">15000</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>train_data, test_data <span class="op">=</span> generate_2d_data(COUNT, mode<span class="op">=</span><span class="st">'multivariate'</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>visualize_2d_data(train_data, test_data)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>train_data, test_data <span class="op">=</span> generate_2d_data(COUNT, mode<span class="op">=</span><span class="st">'univariate'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>visualize_2d_data(train_data, test_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The difference of these two cases is the form of covariance matrix <span class="math inline">\(\boldsymbol{\Sigma}\)</span>.</p>
+<p>In multivariate case the matrix is non-diagonal, in univariate case it is strictly diagonal. As you will see, our VAE model will have absolutely different results for these datasets.</p>
+</section>
+<section id="kl-divergence-and-log-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="kl-divergence-and-log-likelihood">3.2 Kl-divergence and log-likelihood</h3>
+<p>Now it is time to define our model. Our model will have the following structure:</p>
+<ul>
+<li>The latent dimensionality is equal to 2, the same as the data dimensionality (<span class="math inline">\(\mathbf{z} \in \mathbb{R}^2\)</span>, <span class="math inline">\(\mathbf{x} \in \mathbb{R}^2\)</span>).</li>
+<li>Prior distribution is standard Normal (<span class="math inline">\(p(\mathbf{z}) = \mathcal{N}(0, I)\)</span>).</li>
+<li>Variational posterior distribution (or encoder) is <span class="math inline">\(q(\mathbf{z} | \mathbf{x}, \boldsymbol{\phi}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\phi}}(\mathbf{x}), \boldsymbol{\Sigma}_{\boldsymbol{\phi}}(\mathbf{x}))\)</span>. Here <span class="math inline">\(\boldsymbol{\phi}\)</span> denotes all parameters of the encoder neural network.</li>
+<li>Generative distribution (or decoder) is <span class="math inline">\(p(\mathbf{x} | \mathbf{z}, \boldsymbol{\theta}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{z}), \boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{z}))\)</span>. Here <span class="math inline">\(\boldsymbol{\theta}\)</span> denotes all parameters of the decoder neural network. Please note, that here we will use continuous distribution for our variables <span class="math inline">\(\mathbf{x}\)</span>.</li>
+<li>We will consider only diagonal covariance matrices <span class="math inline">\(\boldsymbol{\Sigma}_{\boldsymbol{\phi}}(\mathbf{x})\)</span>, <span class="math inline">\(\boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{z})\)</span>.</li>
+</ul>
+<p>Model objective is ELBO: <span class="math display">\[
+    \mathcal{L}(\boldsymbol{\phi}, \boldsymbol{\theta}) = \mathbb{E}_{q(\mathbf{z} | \mathbf{x}, \boldsymbol{\phi})} \log p(\mathbf{x} | \mathbf{z}, \boldsymbol{\theta}) - KL (q(\mathbf{z} | \mathbf{x}, \boldsymbol{\phi}) || p(\mathbf{z})).
+\]</span></p>
+<p>To make the expectation is independent of parameters <span class="math inline">\(\boldsymbol{\phi}\)</span>, we will use reparametrization trick.</p>
+<p>To calculate the loss, we should derive - <span class="math inline">\(\log p(\mathbf{x} | \mathbf{z}, \boldsymbol{\theta})\)</span>, note that generative distribution is <span class="math inline">\(\mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{z}), \boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{z}))\)</span>. - KL between <span class="math inline">\(\mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\phi}}(\mathbf{x}), \boldsymbol{\Sigma}_{\boldsymbol{\phi}}(\mathbf{x}))\)</span> and <span class="math inline">\(\mathcal{N}(0, I)\)</span>.</p>
+<div id="25c9092d" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_normal_KL(mean_1, log_std_1, mean_2<span class="op">=</span><span class="va">None</span>, log_std_2<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">        This function should return the value of KL(p1 || p2),</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">        where p1 = Normal(mean_1, exp(log_std_1)), p2 = Normal(mean_2, exp(log_std_2) ** 2).</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">        If mean_2 and log_std_2 are None values, we will use standard normal distribution.</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">        Note that we consider the case of diagonal covariance matrix.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mean_2 <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        mean_2 <span class="op">=</span> torch.zeros_like(mean_1)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> log_std_2 <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        log_std_2 <span class="op">=</span> torch.zeros_like(log_std_1)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    std_1 <span class="op">=</span> torch.exp(log_std_1)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    std_2 <span class="op">=</span> torch.exp(log_std_2)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    mean_1, mean_2 <span class="op">=</span> mean_1.<span class="bu">float</span>(), mean_2.<span class="bu">float</span>()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    std_1 , std_2  <span class="op">=</span> std_1 .<span class="bu">float</span>(), std_2 .<span class="bu">float</span>()</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    p  <span class="op">=</span> torch.distributions.Normal(mean_1, std_1)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    q  <span class="op">=</span> torch.distributions.Normal(mean_2, std_2)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    kl <span class="op">=</span> torch.distributions.kl_divergence(p, q)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> kl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="1708b099" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_normal_nll(x, mean, log_std):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">        This function should return the negative log likelihood log p(x),</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">        where p(x) = Normal(x | mean, exp(log_std) ** 2).</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">        Note that we consider the case of diagonal covariance matrix.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ====</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> mean              .<span class="bu">float</span>()</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    std  <span class="op">=</span> torch.exp(log_std).<span class="bu">float</span>()</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">#if (mean.dim() == 0) and (std.dim() == 0):</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> torch.distributions.Normal(mean, std)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#else:</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#    scale_tril=torch.diag(std)</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#    prob = torch.distributions.MultivariateNormal(mean, scale_tril=scale_tril)</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    nnl <span class="op">=</span> <span class="op">-</span>prob.log_prob(x)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> nnl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="vae" class="level3">
+<h3 class="anchored" data-anchor-id="vae">3.3 VAE</h3>
+<p>We will use simple fully connected dense networks for encoder and decoder.</p>
+<div id="9790068a" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FullyConnectedMLP(nn.Module):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, input_shape, hiddens, output_shape):</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">isinstance</span>(hiddens, <span class="bu">list</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.input_shape  <span class="op">=</span> (input_shape,)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.output_shape <span class="op">=</span> (output_shape,)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hiddens <span class="op">=</span> hiddens</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> []</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># your code</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># stack Dense layers with ReLU activation</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># note: you do not have to add relu after the last dense layer</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        model.append( nn.Linear(input_shape, hiddens[<span class="dv">0</span>]) )</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        model.append( nn.ReLU() )</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>( <span class="bu">len</span>(hiddens)<span class="op">-</span><span class="dv">1</span> ):</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>            model.append( nn.Linear(hiddens[i<span class="op">+</span><span class="dv">0</span>], hiddens[i<span class="op">+</span><span class="dv">1</span>]) )</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>            model.append( nn.ReLU() )</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        model.append( nn.Linear(hiddens[<span class="op">-</span><span class="dv">1</span>], output_shape) )</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.net <span class="op">=</span> nn.Sequential(<span class="op">*</span>model)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># your code</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># apply network that was defined in __init__ and return the output</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.net(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="ccedf080" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VAE2d(nn.Module):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_in, n_latent, enc_hidden_sizes, dec_hidden_sizes):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">isinstance</span>(enc_hidden_sizes, <span class="bu">list</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">isinstance</span>(dec_hidden_sizes, <span class="bu">list</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.n_latent <span class="op">=</span> n_latent</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># your code</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># define encoder and decoder networks</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># the encoder takes n_in elements, has enc_hidden_sizes neurons in hidden layers</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and outputs 2 * n_latent (n_latent for means, and n_latent for std)</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># the decoder takes n_latent elements, has dec_hidden_sizes neurons in hidden layers</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># and outputs 2 * n_in (n_in for means, and n_in for std)</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.encoder <span class="op">=</span> FullyConnectedMLP(n_in    , enc_hidden_sizes, <span class="dv">2</span> <span class="op">*</span> n_latent )</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.decoder <span class="op">=</span> FullyConnectedMLP(n_latent, dec_hidden_sizes, <span class="dv">2</span> <span class="op">*</span> n_in     )</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> prior(<span class="va">self</span>, n):</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># your code</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># return n samples from prior distribution (we use standard normal for prior)</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        loc   <span class="op">=</span> torch.zeros(<span class="va">self</span>.n_latent)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        scale <span class="op">=</span> torch.ones (<span class="va">self</span>.n_latent)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> torch.distributions.Normal(loc, scale)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        prior_s <span class="op">=</span> p.sample_n(n)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> USE_CUDA:</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>            prior_s <span class="op">=</span> prior_s.cuda()</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> prior_s</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># your code</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># now you have to return from the model</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - mu_z - means for variational distribution</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - mu_x - means for generative distribution</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - log_std_z - logarithm of std for variational distribution</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># - log_std_x - logarithm of std for generative distribution</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># we use logarithm, since the std is always positive</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># to get std we will exponentiate it to get rid of this constraint</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1) mu_z, log_std_z are outputs from the encoder</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2) apply reparametrization trick to get z (input of decoder)</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># (do not forget to use self.prior())</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3) mu_x, log_std_x are outputs from the decoder</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">#    Note: [mu, log_std = decoder(input).chunk(2, dim=1)]</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>        mu_z, log_std_z <span class="op">=</span> <span class="va">self</span>.encoder(x).chunk(<span class="dv">2</span>, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> torch.exp(log_std_z.to(<span class="st">'cuda'</span>))<span class="op">*</span><span class="va">self</span>.prior( x.size(<span class="dv">0</span>) ) <span class="op">+</span> mu_z.to(<span class="st">'cuda'</span>)</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        mu_x, log_std_x <span class="op">=</span> <span class="va">self</span>.decoder(z).chunk(<span class="dv">2</span>, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mu_z, log_std_z, mu_x, log_std_x</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> loss(<span class="va">self</span>, x):</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>        mu_z, log_std_z, mu_x, log_std_x <span class="op">=</span> <span class="va">self</span>(x)</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># your code</span></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 1) apply model to get mu_z, log_std_z, mu_x, log_std_x</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2) compute reconstruction loss using get_normal_nll (it is the first term in ELBO)</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 3) compute KL loss using get_normal_KL (it is the second term in ELBO)</span></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>        <span class="co"># ====</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>        recon_loss <span class="op">=</span> torch.<span class="bu">sum</span>(get_normal_nll( x, mu_x, log_std_x ))</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>        <span class="co">#kl_loss    = torch.sum(get_normal_KL ( mu_z, log_std_z, mu_x, log_std_x ))</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>        kl_loss    <span class="op">=</span> torch.<span class="bu">sum</span>(get_normal_KL ( mu_z, log_std_z, torch.zeros_like(mu_z), torch.zeros_like(log_std_z) ))</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>            <span class="st">'elbo_loss'</span>: recon_loss <span class="op">+</span> kl_loss,</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>            <span class="st">'recon_loss'</span>: recon_loss,</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>            <span class="st">'kl_loss'</span>: kl_loss</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> sample(<span class="va">self</span>, n, sample_from_decoder<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>            <span class="co"># ====</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>            <span class="co"># your code</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>            <span class="co"># to sample from VAE model you have to sample from prior</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>            <span class="co"># and then apply decoder to prior samples.</span></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>            <span class="co"># parameter noise indicates whether to sample from decoder</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>            <span class="co"># or just use means of generative distribution as samples</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 1) generate prior samples</span></span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 2) apply decoder</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 3) sample from the decoder distribution if sample_from_decoder=True</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>            <span class="co"># ====</span></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>            prior_s <span class="op">=</span> <span class="va">self</span>.prior(n)</span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>            mu_x, log_std_x <span class="op">=</span> <span class="va">self</span>.decoder(prior_s).chunk(<span class="dv">2</span>, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> sample_from_decoder:</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>                z <span class="op">=</span> torch.exp(log_std_x)<span class="op">*</span>prior_s <span class="op">+</span> mu_x</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>                z <span class="op">=</span> mu_x</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> z.cpu().numpy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="27ffe2dd" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_task(train_data, test_data, model, batch_size, epochs, lr, use_cuda<span class="op">=</span><span class="va">True</span>, use_tqdm<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    train_loader <span class="op">=</span> data.DataLoader(train_data, batch_size<span class="op">=</span>BATCH_SIZE, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    test_loader <span class="op">=</span> data.DataLoader(test_data, batch_size<span class="op">=</span>BATCH_SIZE)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    train_losses, test_losses <span class="op">=</span> train_model(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        model, train_loader, test_loader, epochs<span class="op">=</span>EPOCHS, lr<span class="op">=</span>LR, use_cuda<span class="op">=</span>use_cuda, use_tqdm<span class="op">=</span>use_tqdm, loss_key<span class="op">=</span><span class="st">'elbo_loss'</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    samples_noise <span class="op">=</span> model.sample(<span class="dv">3000</span>, sample_from_decoder<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    samples_nonoise <span class="op">=</span> model.sample(<span class="dv">3000</span>, sample_from_decoder<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> key, value <span class="kw">in</span> test_losses.items():</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'</span><span class="sc">{}</span><span class="st">: </span><span class="sc">{:.4f}</span><span class="st">'</span>.<span class="bu">format</span>(key, value[<span class="op">-</span><span class="dv">1</span>]))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    plot_training_curves(train_losses, test_losses)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    visualize_2d_samples(samples_noise, title<span class="op">=</span><span class="st">'Samples with Decoder Noise'</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    visualize_2d_samples(samples_nonoise, title<span class="op">=</span><span class="st">'Samples without Decoder Noise'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="b1ffc571" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ====</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># choose these parameters (2 hidden layers could be enough for encoder and decoder)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ENC_HIDDEN_SIZES <span class="op">=</span> [<span class="dv">20</span>, <span class="dv">20</span>]</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>DEC_HIDDEN_SIZES <span class="op">=</span> [<span class="dv">20</span>, <span class="dv">20</span>]</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>BATCH_SIZE <span class="op">=</span> <span class="dv">32</span>    <span class="co"># any adequate value</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>EPOCHS <span class="op">=</span> <span class="dv">20</span>         <span class="co"># &lt; 10</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> <span class="fl">0.001</span>        <span class="co"># &lt; 1e-2</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ====</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>COUNT <span class="op">=</span> <span class="dv">10000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="a2667522" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="797f3a9c" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_epoch(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    model: <span class="bu">object</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    train_loader: <span class="bu">object</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    optimizer: <span class="bu">object</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    use_cuda: <span class="bu">bool</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    loss_key: <span class="bu">str</span> <span class="op">=</span> <span class="st">"total"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> defaultdict:</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    stats <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> tqdm(train_loader):</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> use_cuda:</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> x.cuda()</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        losses <span class="op">=</span> model.loss(x)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        losses[loss_key].backward()</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        optimizer.step()</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k, v <span class="kw">in</span> losses.items():</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>            stats[k].append(v.item())</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eval_model(model: <span class="bu">object</span>, data_loader: <span class="bu">object</span>, use_cuda: <span class="bu">bool</span>) <span class="op">-&gt;</span> defaultdict:</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    stats <span class="op">=</span> defaultdict(<span class="bu">float</span>)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x <span class="kw">in</span> data_loader:</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> use_cuda:</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                x <span class="op">=</span> x.cuda()</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>            losses <span class="op">=</span> model.loss(x)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> k, v <span class="kw">in</span> losses.items():</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>                stats[k] <span class="op">+=</span> v.item() <span class="op">*</span> x.shape[<span class="dv">0</span>]</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> stats.keys():</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>            stats[k] <span class="op">/=</span> <span class="bu">len</span>(data_loader.dataset)</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> stats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="7ee9495a" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    model: <span class="bu">object</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    train_loader: <span class="bu">object</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    test_loader: <span class="bu">object</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    epochs: <span class="bu">int</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    lr: <span class="bu">float</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    use_tqdm: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    use_cuda: <span class="bu">bool</span> <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    loss_key: <span class="bu">str</span> <span class="op">=</span> <span class="st">"total_loss"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> Tuple[<span class="bu">dict</span>, <span class="bu">dict</span>]:</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> optim.Adam(model.parameters(), lr<span class="op">=</span>lr)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    train_losses <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    test_losses <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    forrange <span class="op">=</span> tqdm(<span class="bu">range</span>(epochs)) <span class="cf">if</span> use_tqdm <span class="cf">else</span> <span class="bu">range</span>(epochs)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> use_cuda:</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> model.cuda()</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> forrange:</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        model.train()</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        train_loss <span class="op">=</span> train_epoch(model, train_loader, optimizer, use_cuda, loss_key)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        test_loss <span class="op">=</span> eval_model(model, test_loader, use_cuda)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> k <span class="kw">in</span> train_loss.keys():</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>            train_losses[k].extend(train_loss[k])</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>            test_losses[k].append(test_loss[k])</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">dict</span>(train_losses), <span class="bu">dict</span>(test_losses)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="034674f2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:1000}}" data-outputid="a3292876-241d-41c6-f7da-99d86438972f">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>train_data, test_data <span class="op">=</span> generate_2d_data(COUNT, mode<span class="op">=</span><span class="st">'multivariate'</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>visualize_2d_data(train_data, test_data)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> VAE2d(<span class="dv">2</span>, <span class="dv">2</span>, ENC_HIDDEN_SIZES, DEC_HIDDEN_SIZES).to(<span class="st">'cuda'</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>solve_task(train_data, test_data, model, BATCH_SIZE, EPOCHS, LR, use_cuda<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  0%|          | 0/219 [00:00&lt;?, ?it/s]/tmp/ipython-input-117888137.py:26: FutureWarning: `sample_n(n)` will be deprecated. Use `sample((n,))` instead.
+  prior_s = p.sample_n(n)
+100%|██████████| 219/219 [00:01&lt;00:00, 129.83it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 235.93it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 243.09it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 190.84it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 203.71it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 240.85it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 236.11it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 233.17it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 240.47it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 242.56it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 233.15it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 240.58it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 231.52it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 208.00it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 189.54it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 234.39it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 230.90it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 240.08it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 239.26it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 243.36it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elbo_loss: 125.9687
+recon_loss: 90.7217
+kl_loss: 35.2470</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-19-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-19-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-19-output-6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To analyze our models we will use the following function. Look carefully, do not change.</p>
+<p>This function calculates the mean <span class="math inline">\(\boldsymbol{\mu}_{\boldsymbol{\phi}}(\mathbf{x})\)</span>, and covariances <span class="math inline">\(\boldsymbol{\Sigma}_{\boldsymbol{\phi}}(\mathbf{x})\)</span> of the variational posterior distribution <span class="math inline">\(q(\mathbf{z} | \mathbf{x}, \boldsymbol{\phi})\)</span>.</p>
+<div id="8157b96d" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_latent_stats(model, test_data, use_cuda<span class="op">=</span><span class="va">True</span>, batch_size<span class="op">=</span><span class="dv">3000</span>):</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    batch <span class="op">=</span> <span class="bu">next</span>(<span class="bu">iter</span>(data.DataLoader(test_data, batch_size<span class="op">=</span>batch_size, shuffle<span class="op">=</span><span class="va">True</span>)))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> use_cuda:</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        batch <span class="op">=</span> batch.cuda()</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        mu_z, log_std_z <span class="op">=</span> model(batch)[:<span class="dv">2</span>]</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    mu_z <span class="op">=</span> mu_z.cpu().numpy()</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    std_z <span class="op">=</span> log_std_z.exp().cpu().numpy()</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mu_z, std_z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="484bb385" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="993eb136-7a83-49b1-8bb7-cf050a788385">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># just look at these numbers and read the comments after this task</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>mu_z, std_z <span class="op">=</span> get_latent_stats(model, test_data, use_cuda<span class="op">=</span>USE_CUDA)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'mu_z = '</span>, mu_z.mean(axis<span class="op">=</span><span class="dv">0</span>), <span class="st">'+-'</span>, mu_z.std(axis<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'std_z = '</span>, std_z.mean(axis<span class="op">=</span><span class="dv">0</span>), <span class="st">'+-'</span>, std_z.std(axis<span class="op">=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mu_z =  [-0.00333838  0.00629993] +- [0.9503864  0.02816329]
+std_z =  [0.33444908 0.98905873] +- [0.00776618 0.01851054]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipython-input-117888137.py:26: FutureWarning: `sample_n(n)` will be deprecated. Use `sample((n,))` instead.
+  prior_s = p.sample_n(n)</code></pre>
+</div>
+</div>
+<p>Secondly, we will train the VAE model for univariate gaussian distribution.</p>
+<div id="e76cd712" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:1000}}" data-outputid="1d120d4b-c4c6-4dc9-b9c7-df3d68ed3324">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>train_data, test_data <span class="op">=</span> generate_2d_data(COUNT, mode<span class="op">=</span><span class="st">'univariate'</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>visualize_2d_data(train_data, test_data)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> VAE2d(<span class="dv">2</span>, <span class="dv">2</span>, ENC_HIDDEN_SIZES, DEC_HIDDEN_SIZES).cuda()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>solve_task(train_data, test_data, model, BATCH_SIZE, EPOCHS, LR, use_cuda<span class="op">=</span>USE_CUDA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  0%|          | 0/219 [00:00&lt;?, ?it/s]/tmp/ipython-input-117888137.py:26: FutureWarning: `sample_n(n)` will be deprecated. Use `sample((n,))` instead.
+  prior_s = p.sample_n(n)
+100%|██████████| 219/219 [00:00&lt;00:00, 230.18it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 235.42it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 235.94it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 204.08it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 184.54it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 237.33it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 239.81it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 235.39it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 238.16it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 233.77it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 243.84it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 240.69it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 239.44it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 233.66it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 187.62it/s]
+100%|██████████| 219/219 [00:01&lt;00:00, 184.49it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 235.14it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 236.41it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 242.78it/s]
+100%|██████████| 219/219 [00:00&lt;00:00, 240.52it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elbo_loss: 126.0842
+recon_loss: 125.7401
+kl_loss: 0.3441</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-22-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-22-output-5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Seminar_VAE_files/figure-html/cell-22-output-6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="058588bf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="03b27a92-b38d-475f-e790-a73bbfa9e11b">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>mu_z, std_z <span class="op">=</span> get_latent_stats(model, test_data, use_cuda<span class="op">=</span>USE_CUDA)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'mu_z = '</span>, mu_z.mean(axis<span class="op">=</span><span class="dv">0</span>), <span class="st">'+-'</span>, mu_z.std(axis<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'std_z = '</span>, std_z.mean(axis<span class="op">=</span><span class="dv">0</span>), <span class="st">'+-'</span>, std_z.std(axis<span class="op">=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mu_z =  [-0.01729548  0.00055771] +- [0.06285747 0.021273  ]
+std_z =  [1.007619   0.99548346] +- [0.06453445 0.06496055]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipython-input-117888137.py:26: FutureWarning: `sample_n(n)` will be deprecated. Use `sample((n,))` instead.
+  prior_s = p.sample_n(n)</code></pre>
+</div>
+</div>
+<p>After training the VAE model on these 2 datasets, have a look at “Samples without Decoder Noise” figures. These figures show the means <span class="math inline">\(\boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{z})\)</span> of the generative distribution <span class="math inline">\(p(\mathbf{x} | \mathbf{z}, \boldsymbol{\theta})\)</span>. In the case of multivariate gaussian, the means are perfectly aligned with the data distribution. Otherwise, you have to see the strange figure in the univariate gaussian case . This happens due to so called <strong>posterior collapse</strong> (we will discuss it at the one of our lectures).</p>
+<p>To be brief, the reason is the following. Our posterior distribution <span class="math inline">\(p(\mathbf{x} | \mathbf{z}, \boldsymbol{\theta}) = \mathcal{N}(\boldsymbol{\mu}_{\boldsymbol{\theta}}(\mathbf{z}), \boldsymbol{\Sigma}_{\boldsymbol{\theta}}(\mathbf{z}))\)</span> is a univariate (covariance matrix is diagonal). Thus, the model does not need latent variable since the data distribution is also univariate. In this case VAE ignores latent variable, cause the model fits the distribution without any information from latent space.</p>
+<p>If the decoder ignores latent variable, the second term in ELBO (KL) could be low (variational posterior distribution, which is given by encoder model, is close to prior distribution for each datapoint). In the training curves you have to see that KL loss behaves differently in these two cases.</p>
+<p>The mean and std of variational posterior distribution also proves this concept. For the second case you have to see that mean is almost zero and std is almost one.</p>
+<p>It is a real problem for generative models and we will discuss later how to overcome it.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
