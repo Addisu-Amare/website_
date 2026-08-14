@@ -1,26 +1,41 @@
 ---
-title: "Addisu A. Zena, Btech"
-date: today
+title: "Addisu Amare Zena"
+subtitle: "M.Sc. Data Science | Biomedical Engineer"
+date: last-modified
 format: html
 ---
 
-![](addisu_photo.png){width=400px style="float: left; margin-left: 0px;margin-right: 20px; margin-bottom: 10px;"}
+![](addisu_photo.png){width="280px" style="float: left; margin-right: 25px; margin-bottom: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"}
 
-### Bio
-Addisu is a curious mind at the intersection of engineering and medicine. He holds a Bachelor's degree in Electronics & Communication Engineering and Biomedical Engineering from Vellore Institute of Technology (2018-2022) and a Master's degree in Data Science from the Skolkovo Institute of Science and Technology (2023-2026). Fascinated by the complexity of the human body and the power of data, he builds machine learning solutions for biomedical problems: from medical image analysis to disease prediction. He believes in the transformative potential of AI in healthcare and is always eager to learn, experiment, and collaborate.
+###  Hello, I'm Addisu
 
+I am a Biomedical Engineer and Data Scientist with a deep fascination for the intersection of engineering, machine learning, and human health. I hold a **Master's in Data Science** from the Skolkovo Institute of Science and Technology (Skoltech) and a **Bachelor's in Electronics & Communication Engineering with a specialization in Biomedical Engineering** from Vellore Institute of Technology (VIT).
 
+My work focuses on developing AI-driven solutions for biomedical challenges—from medical image analysis and disease classification to predictive modeling and biomarker discovery. I believe in the transformative potential of AI in healthcare and am committed to building robust, interpretable, and clinically relevant computational tools.
 
-###Skills:   
- 🟤 Machine Learning & Deep Learning: PyTorch, TensorFlow, Scikit-learn, JAX
- 🟤 Biomedical Data Analysis: Medical Image Analysis, Feature Extraction, Signal Processing
- 🟤 Programming: Python (Expert), MATLAB, SQL, C++
- 🟤 Software Engineering: FastAPI, Docker, Git, MLflow, Kubernetes
- 🟤 Data Pipelines: End-to-end ML pipelines, Data Engineering, ETL
- 🟤 Statistical Methods: Bayesian Methods, Optimization, Cross-validation
+I am actively seeking PhD and R&D opportunities in **Computational Pathology, Medical AI, and Biomedical Imaging**.
 
+---
 
-### Contact
+### Skills
 
-- **email:** amareaddisu5@gmail.com
-- **LinkedIn:** [profile](https://www.linkedin.com/in/addisu-amare-27/)
+| **Category** | **Skills** |
+| :--- | :--- |
+| **Machine Learning & Deep Learning** | PyTorch, TensorFlow, Scikit-learn, JAX |
+| **Biomedical Data Analysis** | Medical Image Analysis, Feature Extraction, Signal Processing |
+| **Programming** | Python (Expert), MATLAB, SQL, C++ |
+| **Software Engineering** | FastAPI, Docker, Git, MLflow, Kubernetes |
+| **Data Pipelines** | End-to-end ML pipelines, Data Engineering, ETL |
+| **Statistical Methods** | Bayesian Methods, Optimization, Cross-validation |
+
+---
+
+###  Contact
+
+- **Email:** [amareaddisu5@gmail.com](mailto:amareaddisu5@gmail.com)
+- **LinkedIn:** [linkedin.com/in/addisu-amare-27](https://www.linkedin.com/in/addisu-amare-27/)
+- **GitHub:** [github.com/Addisu-Amare](https://github.com/Addisu-Amare)
+
+---
+
+*Last updated: `r Sys.Date()`*
