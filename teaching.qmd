@@ -15,7 +15,186 @@ Below is the course I have taught at the University of Skoltech,Russia during in
 
 #### Graduate Courses
 - **I30202437 Python for Data Science**
-Pseudo-code. Program design and structure. Flow control. Iteration. Lists (arrays). Functions. File I/O. Classes, objects, methods, and libraries. 
+Pseudo-code. Program design and structure. Flow control. Iteration. Lists (arrays). Functions. File I/O. Classes, objects, methods, and libraries.
+
+# AI and Data Science for Engineers
+## 16-Week Course, Junior-Level Engineering Students
+
+**Prepared by:** Addisu Amare  
+Data Scientist and Biomedical Engineer  
+August 2026
+
+---
+
+## Table of Contents
+1. [Course Overview](#course-overview)
+2. [Learning Outcomes](#learning-outcomes)
+3. [Tools, References & Assessment](#tools-references--assessment)
+4. [Weekly Presentation Specs (Weeks 1–16)](#weekly-presentation-specs-weeks-116)
+5. [Term Project](#term-project)
+6. [Deliverables Checklist](#deliverables-checklist)
+
+---
+
+## Course Overview
+
+This course introduces junior-level engineering students to the theoretical foundations and practical workflows of Artificial Intelligence (AI) and Data Science (DS), with an emphasis on applications across signals, systems, and engineering data. Students progress from data handling and statistical reasoning through classical machine learning to an introduction to deep learning, applying each technique to realistic engineering datasets (sensor data, time-series signals, system telemetry). The course is lecture-based (3 credit hours/week) but application‑driven: students complete hands‑on programming assignments outside class and a term‑long applied project.
+
+- **Format:** 16 weeks, 3 lecture hours/week, no dedicated lab.
+- **Audience:** Junior (3rd‑year) engineering students, already comfortable with Python.
+- **Focus:** Applications span signals, systems, and engineering data generally — not tied to one specific domain.
+- **Tools:** Python 3, Google Colab, NumPy/Pandas/Matplotlib, Scikit‑learn, TensorFlow or PyTorch (pick one, use consistently).
+
+---
+
+## Learning Outcomes
+
+By the end of the course, students will be able to:
+
+1. Explain how AI, ML, DL, and Data Science relate, and identify engineering use cases.
+2. Acquire, clean, and preprocess real‑world engineering data.
+3. Apply EDA and statistical reasoning to characterize engineering datasets.
+4. Design, train, and evaluate supervised learning models for prediction/classification.
+5. Apply unsupervised learning for pattern discovery and anomaly detection.
+6. Build and evaluate neural networks — MLP, CNN, time‑series models, and an intro to LLMs.
+7. Critically evaluate model performance and limitations, and communicate results clearly.
+
+---
+
+## Tools, References & Assessment
+
+- **Reference:** *Hands‑On Machine Learning with Scikit‑Learn, Keras, and TensorFlow* (Géron) — primary reference.
+- **Also:** *An Introduction to Statistical Learning* (James et al.) and *Python Data Science Handbook* (VanderPlas) — supplementary.
+- Any reference suggested by you.
+
+| Assessment Component | Weight |
+|----------------------|--------|
+| Quizzes (2 total)    | 20%    |
+| Midterm Exam         | 25%    |
+| Assignment/Project   | 20%    |
+| Final Exam           | 35%    |
+
+---
+
+## Weekly Presentation Specs (Weeks 1–16)
+
+Build one slide deck per week (10–15 slides) covering exactly the four elements below: the concept in plain language, the math explained through a specific chart/diagram, one table, and one worked engineering example. Keep visual style consistent across all 16 decks.
+
+### Week 1 — Introduction to AI and Data Science
+- **Concept:** What AI, ML, DL, and Data Science mean and how they relate; the data science workflow.
+- **Math + Visual:** Nested‑circles diagram: AI ⊃ ML ⊃ DL. Simple input→output diagram for y = f(x).
+- **Table to Include:** Comparison table — AI vs. ML vs. DL vs. Data Science (definition + one example use case each).
+- **Example:** 3–4 real engineering AI/DS use cases (predictive maintenance, structural monitoring, fault detection).
+
+### Week 2 — Python for Data Science
+- **Concept:** Vectors, matrices, and the Python/Colab workflow for handling data.
+- **Math + Visual:** Diagram: a vector vs. a matrix; simple visual of a dot‑product calculation.
+- **Table to Include:** Cheat‑sheet table of key NumPy/Pandas operations (load, filter, aggregate).
+- **Example:** Load a sample sensor dataset in Colab and print basic statistics.
+
+### Week 3 — Data Preprocessing
+- **Concept:** Handling missing data, outliers, and feature scaling.
+- **Math + Visual:** Before/after chart: raw data vs. normalized data (z‑score and min‑max).
+- **Table to Include:** Formula table — z‑score vs. min‑max scaling, with when to use each.
+- **Example:** Clean a noisy sensor dataset step by step.
+
+### Week 4 — Exploratory Data Analysis
+- **Concept:** Descriptive statistics and data visualization.
+- **Math + Visual:** Histogram and box plot of a sample dataset; scatter plot showing correlation.
+- **Table to Include:** Summary statistics table (mean, std, min, max) for a sample dataset.
+- **Example:** Full EDA walkthrough on an engineering dataset (e.g., machine vibration).
+
+### Week 5 — Probability and Statistics Foundations
+- **Concept:** Bayes' theorem and the normal distribution.
+- **Math + Visual:** Bell‑curve chart of a normal distribution; simple Bayes' theorem worked example.
+- **Table to Include:** Table showing prior, likelihood, and posterior in a worked problem.
+- **Example:** Estimate the probability of sensor failure from historical data.
+
+### Week 6 — Regression Analysis
+- **Concept:** Linear and polynomial regression.
+- **Math + Visual:** Scatter plot with a fitted regression line; line chart of error decreasing over gradient‑descent iterations.
+- **Table to Include:** Comparison table — linear vs. polynomial fit (when to use, pros/cons).
+- **Example:** Fit a calibration curve to sensor readings.
+
+### Week 7 — Classification Methods I
+- **Concept:** Logistic regression, k‑NN, and decision trees.
+- **Math + Visual:** Sigmoid curve chart; simple 2D decision‑boundary plot.
+- **Table to Include:** Comparison table of the three classifiers (how each works, strengths/weaknesses).
+- **Example:** Classify a fault/no‑fault condition from sensor readings.
+
+### Week 8 — Midterm Exam and Course Review
+- **Concept:** Recap only — no new theory this week.
+- **Math + Visual:** One summary slide per topic (Weeks 1–7): formula + one‑line reminder.
+- **Table to Include:** One consolidated formula‑reference table covering Weeks 1–7.
+- **Example:** Two or three worked practice problems drawn from earlier weeks.
+
+### Week 9 — Classification Methods II
+- **Concept:** SVM, ensemble methods, and model evaluation.
+- **Math + Visual:** SVM margin diagram; ROC curve chart.
+- **Table to Include:** Confusion matrix template with precision/recall/F1 formulas filled in.
+- **Example:** Compare 2–3 classifiers on the same fault‑detection dataset.
+
+### Week 10 — Unsupervised Learning
+- **Concept:** Clustering (k‑means) and dimensionality reduction (PCA).
+- **Math + Visual:** Scatter plot of k‑means clusters with centroids; bar chart of PCA explained variance.
+- **Table to Include:** Comparison table — clustering vs. PCA (goal, output, typical use case).
+- **Example:** Detect anomalies in multi‑sensor data.
+
+### Week 11 — Neural Networks I
+- **Concept:** Perceptron, MLP, and backpropagation.
+- **Math + Visual:** Neural network architecture diagram; graph comparing ReLU vs. sigmoid activation curves.
+- **Table to Include:** Table of common activation functions with formulas.
+- **Example:** Walk through one neuron computing a weighted sum and output.
+
+### Week 12 — Time‑Series Analysis and Forecasting
+- **Concept:** Moving averages, autoregressive models, and stationarity.
+- **Math + Visual:** Line chart: raw vs. smoothed time‑series; before/after chart showing differencing.
+- **Table to Include:** Table summarizing the AR, I, and MA components of ARIMA.
+- **Example:** Forecast equipment load or demand from historical data.
+
+### Week 13 — Convolutional Neural Networks I
+- **Concept:** Convolution and pooling operations.
+- **Math + Visual:** Diagram of a kernel sliding across an image; comparison of max vs. average pooling.
+- **Table to Include:** Table of common CNN layer types and their purpose.
+- **Example:** Visualize a simple edge‑detection filter applied to an image.
+
+### Week 14 — Convolutional Neural Networks II
+- **Concept:** CNN applications and transfer learning.
+- **Math + Visual:** Diagram showing feature‑map size shrinking across layers; before/after defect‑detection image example.
+- **Table to Include:** Comparison table — training from scratch vs. transfer learning (data needed, time, accuracy).
+- **Example:** Detect a defect in a sample vibration or image dataset.
+
+### Week 15 — Large Language Models I
+- **Concept:** Tokenization, embeddings, and attention.
+- **Math + Visual:** Diagram: text → tokens → embeddings → attention; simple chart of attention weights between words.
+- **Table to Include:** Table of example words with simplified embedding vectors.
+- **Example:** Show how an LLM processes a short technical sentence.
+
+### Week 16 — Large Language Models II
+- **Concept:** LLM applications and limitations in engineering.
+- **Math + Visual:** Bar chart of softmax probabilities for next‑token prediction.
+- **Table to Include:** Comparison table — LLM use cases vs. limitations (e.g., documentation generation vs. hallucination risk).
+- **Example:** A sample technical Q&A or documentation‑generation use case, with a note on verifying outputs.
+
+---
+
+## Term Project
+
+- **Week 9 — Proposal:** Teams (2–3 students) select an engineering dataset/problem.
+- **Week 12 — Checkpoint:** EDA and baseline model results.
+- **Finals Period:** Final report and presentation — model comparison, evaluation, limitations.
+
+Falls under the 20% "Assignment/Project" line above. May optionally use data from students' ESP32/Mechatronics sensor projects.
+
+---
+
+## Deliverables Checklist
+
+- 16 slide decks (Weeks 1–16), each following the spec in [Section 4](#weekly-presentation-specs-weeks-116).
+- 1 Colab notebook per week demonstrating that week's technique in Python.
+- Practice/quiz questions per week, feeding into the 2 quizzes, midterm, and final.
+- 1 grading rubric and starter template for the Term Project.
+- One deep learning framework (TensorFlow/Keras or PyTorch) used consistently across all notebooks.
 
 ## Teaching Philosophy
 
