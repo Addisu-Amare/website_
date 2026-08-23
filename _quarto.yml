@@ -23,6 +23,8 @@ website:
         href: Hobbies.qmd
       - text: Cancer classification
         href: Jupyter_note_book.qmd
+      - text: Teaching
+        href: teaching.qmd
 
     right:
       - icon: github
